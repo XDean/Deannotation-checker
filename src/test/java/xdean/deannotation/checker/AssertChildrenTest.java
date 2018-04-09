@@ -17,10 +17,21 @@ public class AssertChildrenTest extends CompileTest {
           "assertChildren/NotInheritAnno.java",
           "assertChildren/A.java",
           "assertChildren/B.java",
+      })
+  public void test(Compilation c) throws Exception {
+    CompilationSubject.assertThat(c).succeeded();
+  }
+
+  @Test
+  @Compiled(
+      processors = AssertChildrenProcessor.class,
+      sources = {
+          "assertChildren/InheritAnno.java",
+          "assertChildren/NotInheritAnno.java",
+          "assertChildren/A.java",
           "assertChildren/C.java",
       })
-
-  public void test(Compilation c) throws Exception {
+  public void testInherit(Compilation c) throws Exception {
     CompilationSubject.assertThat(c).hadErrorCount(1);
   }
 }

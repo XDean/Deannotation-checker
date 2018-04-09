@@ -52,7 +52,7 @@ public class AssertChildrenProcessor extends XAbstractProcessor {
     ElementUtil.getAllSubClasses(types, roundEnv, type.asType())
         .filter(te -> te != type)
         .forEach(te -> handleAssert(() -> {
-          Set<TypeMirror> annotationTypes = te.getAnnotationMirrors()
+          Set<TypeMirror> annotationTypes = ElementUtil.getInheritAnnotationMirrors(te)
               .stream()
               .map(am -> (TypeMirror) am.getAnnotationType())
               .collect(Collectors.toSet());

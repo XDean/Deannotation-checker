@@ -1,7 +1,12 @@
 package xdean.deannotation.checker.assertChildren;
 
-@InheritAnno
 @NotInheritAnno
+@InheritAnno
 public class B implements A {
+
+}
+
+@NotInheritAnno
+class BB extends B {
 
 }
