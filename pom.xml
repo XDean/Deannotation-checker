@@ -23,7 +23,7 @@
 			<dependency>
 				<groupId>com.github.XDean</groupId>
 				<artifactId>deannotation-parent</artifactId>
-				<version>0.2.1</version>
+				<version>0.2.2</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
@@ -48,6 +48,11 @@
 		<dependency>
 			<groupId>com.google.testing.compile</groupId>
 			<artifactId>compile-testing</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.XDean</groupId>
+			<artifactId>spring-annotation</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
