@@ -2,6 +2,7 @@ package xdean.deannotation.checker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 
@@ -50,7 +52,8 @@ public class AssertChildrenProcessor extends XAbstractProcessor {
     AssertChildren ac = type.getAnnotation(AssertChildren.class);
     List<TypeMirror> annotated = ElementUtil.getAnnotationClassArray(elements, ac, a -> a.annotated());
     ElementUtil.getAllSubClasses(types, roundEnv, type.asType())
-        .filter(te -> te != type)
+        .filter(te -> ac.includeInterface() || te.getKind() != ElementKind.INTERFACE)
+        .filter(te -> !Objects.equals(te, type))
         .forEach(te -> handleAssert(() -> {
           Set<TypeMirror> annotationTypes = ElementUtil.getInheritAnnotationMirrors(te)
               .stream()

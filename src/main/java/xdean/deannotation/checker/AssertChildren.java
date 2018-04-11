@@ -13,4 +13,6 @@ import java.lang.annotation.Target;
 @Target(TYPE)
 public @interface AssertChildren {
   Class<? extends Annotation>[] annotated() default {};
+
+  boolean includeInterface() default false;
 }
