@@ -10,3 +10,8 @@ public class C implements A {
 class CC extends C {
 
 }
+
+@InheritAnno
+abstract class CCC extends C {
+
+}

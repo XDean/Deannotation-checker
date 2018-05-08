@@ -10,7 +10,7 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 
@@ -52,7 +52,7 @@ public class AssertChildrenProcessor extends XAbstractProcessor {
     AssertChildren ac = type.getAnnotation(AssertChildren.class);
     List<TypeMirror> annotated = ElementUtil.getAnnotationClassArray(elements, ac, a -> a.annotated());
     ElementUtil.getAllSubClasses(types, roundEnv, type.asType())
-        .filter(te -> ac.includeInterface() || te.getKind() != ElementKind.INTERFACE)
+        .filter(te -> ac.includeAbstract() || !te.getModifiers().contains(Modifier.ABSTRACT))
         .filter(te -> !Objects.equals(te, type))
         .forEach(te -> handleAssert(() -> {
           Set<TypeMirror> annotationTypes = ElementUtil.getInheritAnnotationMirrors(te)
