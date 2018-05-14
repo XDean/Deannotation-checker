@@ -35,7 +35,7 @@ public class AssertMethodProcessor extends AbstractMetaProcessor<AssertMethod> {
     Arrays.stream(am.forbiddenModifiers())
         .forEach(m -> assertThat(!modifiers.contains(m)).log("Modifier forbidden: " + m, element));
     assertThat(TypeRestrict.Handler.match(method.getReturnType(), am.returnType(), elements, types))
-        .log("Must return " + TypeRestrict.Handler.toString(am.returnType()), element);
+        .log("Must return " + TypeRestrict.Handler.toString(am.returnType(), elements, types), element);
     List<? extends VariableElement> parameters = method.getParameters();
     TypeRestrict[] argTypes = am.argTypes();
     assertThat((am.argCount() < 0 && argTypes.length <= parameters.size()) || am.argCount() == parameters.size())
@@ -44,7 +44,7 @@ public class AssertMethodProcessor extends AbstractMetaProcessor<AssertMethod> {
       TypeRestrict res = argTypes[i];
       VariableElement param = parameters.get(i);
       assertThat(TypeRestrict.Handler.match(param.asType(), res, elements, types))
-          .log("Argument must " + TypeRestrict.Handler.toString(res), param);
+          .log("Argument must " + TypeRestrict.Handler.toString(res, elements, types), param);
     }
   }
 

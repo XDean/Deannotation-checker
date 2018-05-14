@@ -8,10 +8,24 @@ import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
+import xdean.annotation.processor.toolkit.ElementUtil;
+
 @Retention(CLASS)
 public @interface TypeRestrict {
 
   class Irrelevant {
+    private static transient TypeMirror TYPE;
+
+    private static TypeMirror get(Elements es, Types ts) {
+      if (TYPE == null) {
+        synchronized (Irrelevant.class) {
+          if (TYPE == null) {
+            TYPE = es.getTypeElement(Irrelevant.class.getCanonicalName()).asType();
+          }
+        }
+      }
+      return TYPE;
+    }
   }
 
   enum Type {
@@ -30,11 +44,12 @@ public @interface TypeRestrict {
     }
 
     static boolean match(TypeMirror type, TypeRestrict res, Elements es, Types ts) {
-      if (res.value() == Irrelevant.class) {
+      TypeMirror target = ts.erasure(ElementUtil.getAnnotationClassValue(es, res, r -> r.value()));
+      TypeMirror irr = Irrelevant.get(es, ts);
+      if (ts.isSameType(target, irr)) {
         return true;
       }
       type = ts.erasure(type);
-      TypeMirror target = ts.erasure(es.getTypeElement(res.value().getCanonicalName()).asType());
       switch (res.type()) {
       case EQUAL:
         return ts.isSameType(type, target);
@@ -47,8 +62,9 @@ public @interface TypeRestrict {
       }
     }
 
-    static String toString(TypeRestrict res) {
-      return res.type().name().toLowerCase() + " " + res.value().getSimpleName();
+    static String toString(TypeRestrict res, Elements es, Types ts) {
+      TypeMirror tm = ts.erasure(ElementUtil.getAnnotationClassValue(es, res, r -> r.value()));
+      return res.type().name().toLowerCase() + " " + tm.toString();
     }
   }
 }
