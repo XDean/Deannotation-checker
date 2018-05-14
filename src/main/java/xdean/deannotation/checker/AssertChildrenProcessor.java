@@ -10,48 +10,28 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 
 import com.google.auto.service.AutoService;
 
-import xdean.annotation.processor.toolkit.AssertException;
 import xdean.annotation.processor.toolkit.ElementUtil;
-import xdean.annotation.processor.toolkit.NestCompileFile;
-import xdean.annotation.processor.toolkit.XAbstractProcessor;
-import xdean.annotation.processor.toolkit.annotation.SupportedAnnotation;
+import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
+import xdean.annotation.processor.toolkit.meta.AbstractMetaProcessor;
 
 @AutoService(Processor.class)
-@SupportedAnnotation(AssertChildren.class)
+@SupportedMetaAnnotation(AssertChildren.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-public class AssertChildrenProcessor extends XAbstractProcessor {
-  private static final String RECORD_FILE = "META-INF/xdean/deannotation/checker/AssertChildren";
-  private final NestCompileFile file = new NestCompileFile(RECORD_FILE);
+public class AssertChildrenProcessor extends AbstractMetaProcessor<AssertChildren> {
 
   @Override
-  public boolean processActual(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) throws AssertException {
-    if (roundEnv.processingOver()) {
-      return false;
-    }
-    List<TypeElement> types = new ArrayList<>();
-    roundEnv.getElementsAnnotatedWith(AssertChildren.class)
-        .stream()
-        .filter(e -> TypeElement.class.isInstance(e))
-        .map(e -> (TypeElement) e)
-        .forEach(types::add);
-    assertDo(() -> file.readLines()
-        .map(s -> elements.getTypeElement(s))
-        .forEach(types::add))
-            .todo(() -> error().log("Error to read " + RECORD_FILE));
-    types.forEach(e -> check(e, roundEnv));
-    return true;
-  }
-
-  private void check(TypeElement type, RoundEnvironment roundEnv) {
-    AssertChildren ac = type.getAnnotation(AssertChildren.class);
+  protected void process(RoundEnvironment env, AssertChildren ac, AnnotationMirror mid, Element element) {
+    TypeElement type = (TypeElement) element;
     List<TypeMirror> annotated = ElementUtil.getAnnotationClassArray(elements, ac, a -> a.annotated());
-    ElementUtil.getAllSubClasses(types, roundEnv, type.asType())
+    ElementUtil.getAllSubClasses(types, env, type.asType())
         .filter(te -> ac.includeAbstract() || !te.getModifiers().contains(Modifier.ABSTRACT))
         .filter(te -> !Objects.equals(te, type))
         .forEach(te -> handleAssert(() -> {

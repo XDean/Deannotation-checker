@@ -28,6 +28,11 @@
 				<artifactId>guava</artifactId>
 				<version>23.1-jre</version>
 			</dependency>
+      <dependency>
+        <groupId>com.github.XDean</groupId>
+        <artifactId>AnnotationProcessorToolkit</artifactId>
+        <version>0.1.7-SNAPSHOT</version>
+      </dependency>
 		</dependencies>
 	</dependencyManagement>
 

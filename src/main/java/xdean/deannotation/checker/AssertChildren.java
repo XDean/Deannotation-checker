@@ -8,6 +8,9 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import xdean.annotation.processor.toolkit.annotation.Meta;
+
+@Meta
 @Documented
 @Retention(RUNTIME)
 @Target(TYPE)

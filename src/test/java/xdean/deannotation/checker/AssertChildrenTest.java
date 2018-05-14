@@ -5,10 +5,10 @@ import org.junit.Test;
 import com.google.testing.compile.Compilation;
 import com.google.testing.compile.CompilationSubject;
 
-import xdean.annotation.processor.toolkit.test.CompileTest;
+import xdean.annotation.processor.toolkit.test.CompileTestCase;
 import xdean.annotation.processor.toolkit.test.Compiled;
 
-public class AssertChildrenTest extends CompileTest {
+public class AssertChildrenTest extends CompileTestCase {
   @Test
   @Compiled(
       processors = AssertChildrenProcessor.class,
