@@ -46,5 +46,9 @@ public @interface TypeRestrict {
         throw new IllegalStateException();
       }
     }
+
+    static String toString(TypeRestrict res) {
+      return res.type().name().toLowerCase() + " " + res.value().getSimpleName();
+    }
   }
 }
