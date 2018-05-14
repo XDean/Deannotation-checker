@@ -2,7 +2,6 @@ package xdean.deannotation.checker;
 
 import static java.lang.annotation.RetentionPolicy.CLASS;
 
-import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 
 import javax.lang.model.type.TypeMirror;
@@ -12,32 +11,18 @@ import javax.lang.model.util.Types;
 @Retention(CLASS)
 public @interface TypeRestrict {
 
+  class Irrelevant {
+  }
+
   enum Type {
     SUPER,
     EQUAL,
     EXTEND;
   }
 
-  Class<?> value();
+  Class<?> value() default Irrelevant.class;
 
   Type type() default Type.EQUAL;
-
-  TypeRestrict IRRELEVANT = new TypeRestrict() {
-    @Override
-    public Class<? extends Annotation> annotationType() {
-      return TypeRestrict.class;
-    }
-
-    @Override
-    public Class<?> value() {
-      return TypeRestrict.class;
-    }
-
-    @Override
-    public Type type() {
-      return Type.EQUAL;
-    }
-  };
 
   interface Handler {
     static boolean match(Class<?> clz, TypeRestrict res, Elements es, Types ts) {
@@ -45,6 +30,9 @@ public @interface TypeRestrict {
     }
 
     static boolean match(TypeMirror type, TypeRestrict res, Elements es, Types ts) {
+      if (res.value() == Irrelevant.class) {
+        return true;
+      }
       type = ts.erasure(type);
       TypeMirror target = ts.erasure(es.getTypeElement(res.value().getCanonicalName()).asType());
       switch (res.type()) {
