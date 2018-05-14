@@ -1,29 +1,30 @@
 package xdean.deannotation.checker;
 
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.CLASS;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import java.lang.reflect.Modifier;
+
+import javax.lang.model.element.Modifier;
 
 import xdean.annotation.processor.toolkit.annotation.Meta;
 
 @Meta
 @Documented
 @Retention(CLASS)
-@Target(TYPE)
+@Target({ TYPE, ANNOTATION_TYPE })
 public @interface AssertMethod {
 
-  interface Irrelevant {
-  }
+  Modifier[] requiredModifiers() default {};
 
-  int accessLevel() default Modifier.PRIVATE;
+  Modifier[] forbiddenModifiers() default {};
 
-  Class<?> returnType() default Irrelevant.class;
+  TypeRestrict returnType() default @TypeRestrict;
 
   int argCount() default -1;
 
-  Class<?>[] argTypes() default {};
+  TypeRestrict[] argTypes() default {};
 }
