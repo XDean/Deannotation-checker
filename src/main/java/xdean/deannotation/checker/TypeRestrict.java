@@ -4,6 +4,7 @@ import static java.lang.annotation.RetentionPolicy.CLASS;
 
 import java.lang.annotation.Retention;
 
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -44,12 +45,12 @@ public @interface TypeRestrict {
     }
 
     static boolean match(TypeMirror type, TypeRestrict res, Elements es, Types ts) {
-      TypeMirror target = ts.erasure(ElementUtil.getAnnotationClassValue(es, res, r -> r.value()));
+      TypeMirror target = erasure(ts, ElementUtil.getAnnotationClassValue(es, res, r -> r.value()));
       TypeMirror irr = Irrelevant.get(es, ts);
       if (ts.isSameType(target, irr)) {
         return true;
       }
-      type = ts.erasure(type);
+      type = erasure(ts, type);
       switch (res.type()) {
       case EQUAL:
         return ts.isSameType(type, target);
@@ -63,8 +64,12 @@ public @interface TypeRestrict {
     }
 
     static String toString(TypeRestrict res, Elements es, Types ts) {
-      TypeMirror tm = ts.erasure(ElementUtil.getAnnotationClassValue(es, res, r -> r.value()));
+      TypeMirror tm = erasure(ts, ElementUtil.getAnnotationClassValue(es, res, r -> r.value()));
       return res.type().name().toLowerCase() + " " + tm.toString();
+    }
+    
+    static TypeMirror erasure(Types types, TypeMirror tm) {
+      return tm.getKind() == TypeKind.VOID ? tm : types.erasure(tm);
     }
   }
 }
