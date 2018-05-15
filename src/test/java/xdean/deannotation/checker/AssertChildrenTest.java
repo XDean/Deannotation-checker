@@ -7,6 +7,7 @@ import com.google.testing.compile.CompilationSubject;
 
 import xdean.annotation.processor.toolkit.test.CompileTestCase;
 import xdean.annotation.processor.toolkit.test.Compiled;
+import xdean.deannotation.checker.processor.AssertChildrenProcessor;
 
 public class AssertChildrenTest extends CompileTestCase {
   @Test

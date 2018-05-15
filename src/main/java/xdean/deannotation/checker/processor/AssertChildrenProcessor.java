@@ -1,4 +1,4 @@
-package xdean.deannotation.checker;
+package xdean.deannotation.checker.processor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,7 @@ import com.google.auto.service.AutoService;
 import xdean.annotation.processor.toolkit.ElementUtil;
 import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
 import xdean.annotation.processor.toolkit.meta.AbstractMetaProcessor;
+import xdean.deannotation.checker.AssertChildren;
 
 @AutoService(Processor.class)
 @SupportedMetaAnnotation(AssertChildren.class)
