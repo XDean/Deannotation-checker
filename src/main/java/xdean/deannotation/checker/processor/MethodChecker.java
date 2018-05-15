@@ -19,16 +19,16 @@ import com.google.auto.service.AutoService;
 import xdean.annotation.processor.toolkit.AssertException;
 import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
 import xdean.annotation.processor.toolkit.meta.AbstractMetaProcessor;
-import xdean.deannotation.checker.AssertMethod;
+import xdean.deannotation.checker.CheckMethod;
 import xdean.deannotation.checker.TypeRestrict;
 
 @AutoService(Processor.class)
-@SupportedMetaAnnotation(AssertMethod.class)
+@SupportedMetaAnnotation(CheckMethod.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-public class AssertMethodProcessor extends AbstractMetaProcessor<AssertMethod> {
+public class MethodChecker extends AbstractMetaProcessor<CheckMethod> {
 
   @Override
-  protected void process(RoundEnvironment env, AssertMethod am, AnnotationMirror mid, Element element) throws AssertException {
+  protected void process(RoundEnvironment env, CheckMethod am, AnnotationMirror mid, Element element) throws AssertException {
     assertThat(element instanceof ExecutableElement).doNoThing();
     ExecutableElement method = (ExecutableElement) element;
     Set<Modifier> modifiers = method.getModifiers();
@@ -51,8 +51,8 @@ public class AssertMethodProcessor extends AbstractMetaProcessor<AssertMethod> {
   }
 
   @Override
-  protected void processMeta(RoundEnvironment env, AssertMethod am, Element element) throws AssertException {
+  protected void processMeta(RoundEnvironment env, CheckMethod am, Element element) throws AssertException {
     assertThat(am.argCount() < 0 || am.argCount() >= am.argTypes().length)
-        .log("argCount must not greater than argTypes length.", element, AssertMethod.class);
+        .log("argCount must not greater than argTypes length.", element, CheckMethod.class);
   }
 }

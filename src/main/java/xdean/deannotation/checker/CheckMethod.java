@@ -16,7 +16,7 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 @Documented
 @Retention(CLASS)
 @Target({ METHOD, ANNOTATION_TYPE })
-public @interface AssertMethod {
+public @interface CheckMethod {
 
   Modifier[] requiredModifiers() default {};
 

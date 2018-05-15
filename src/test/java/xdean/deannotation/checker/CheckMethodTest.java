@@ -7,12 +7,12 @@ import com.google.testing.compile.CompilationSubject;
 
 import xdean.annotation.processor.toolkit.test.CompileTestCase;
 import xdean.annotation.processor.toolkit.test.Compiled;
-import xdean.deannotation.checker.processor.AssertMethodProcessor;
+import xdean.deannotation.checker.processor.MethodChecker;
 
-public class AssertMethodTest extends CompileTestCase {
+public class CheckMethodTest extends CompileTestCase {
   @Test
   @Compiled(
-      processors = AssertMethodProcessor.class,
+      processors = MethodChecker.class,
       sources = {
           "assertMethod/Init.java",
           "assertMethod/GoldenUsage.java"
@@ -23,7 +23,7 @@ public class AssertMethodTest extends CompileTestCase {
 
   @Test
   @Compiled(
-      processors = AssertMethodProcessor.class,
+      processors = MethodChecker.class,
       sources = {
           "assertMethod/Init.java",
           "assertMethod/GoldenUsage.java",
@@ -35,7 +35,7 @@ public class AssertMethodTest extends CompileTestCase {
 
   @Test
   @Compiled(
-      processors = AssertMethodProcessor.class,
+      processors = MethodChecker.class,
       sources = {
           "assertMethod/Init.java",
           "assertMethod/GoldenUsage.java",
@@ -47,7 +47,7 @@ public class AssertMethodTest extends CompileTestCase {
 
   @Test
   @Compiled(
-      processors = AssertMethodProcessor.class,
+      processors = MethodChecker.class,
       sources = {
           "assertMethod/Init.java",
           "assertMethod/GoldenUsage.java",
@@ -59,7 +59,7 @@ public class AssertMethodTest extends CompileTestCase {
 
   @Test
   @Compiled(
-      processors = AssertMethodProcessor.class,
+      processors = MethodChecker.class,
       sources = {
           "assertMethod/Init.java",
           "assertMethod/GoldenUsage.java",
@@ -71,7 +71,7 @@ public class AssertMethodTest extends CompileTestCase {
 
   @Test
   @Compiled(
-      processors = AssertMethodProcessor.class,
+      processors = MethodChecker.class,
       sources = {
           "assertMethod/Init.java",
           "assertMethod/GoldenUsage.java",
@@ -83,7 +83,7 @@ public class AssertMethodTest extends CompileTestCase {
 
   @Test
   @Compiled(
-      processors = AssertMethodProcessor.class,
+      processors = MethodChecker.class,
       sources = {
           "assertMethod/Init.java",
           "assertMethod/GoldenUsage.java",
@@ -95,7 +95,7 @@ public class AssertMethodTest extends CompileTestCase {
 
   @Test
   @Compiled(
-      processors = AssertMethodProcessor.class,
+      processors = MethodChecker.class,
       sources = {
           "assertMethod/Init.java",
           "assertMethod/GoldenUsage.java",
