@@ -26,8 +26,8 @@ import xdean.annotation.processor.toolkit.meta.AbstractMetaProcessor;
 public class AssertMethodProcessor extends AbstractMetaProcessor<AssertMethod> {
 
   @Override
-  protected void process(RoundEnvironment env, AssertMethod am, AnnotationMirror mid, Element element) {
-    assertThat(element instanceof ExecutableElement).log("Must annotated on Method.", element);
+  protected void process(RoundEnvironment env, AssertMethod am, AnnotationMirror mid, Element element) throws AssertException {
+    assertThat(element instanceof ExecutableElement).doNoThing();
     ExecutableElement method = (ExecutableElement) element;
     Set<Modifier> modifiers = method.getModifiers();
     Arrays.stream(am.requiredModifiers())
