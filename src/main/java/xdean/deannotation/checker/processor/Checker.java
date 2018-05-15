@@ -22,7 +22,9 @@ public abstract class Checker<T extends Annotation> extends AbstractMetaProcesso
             throw new Error("@CheckerInject must annotated on Checker field: " + f);
           }
           try {
-            return (Checker<?>) f.getType().newInstance();
+            Object dependency = f.getType().newInstance();
+            f.set(this, dependency);
+            return (Checker<?>) dependency;
           } catch (InstantiationException | IllegalAccessException e) {
             throw new Error(e);
           }

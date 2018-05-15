@@ -1,7 +1,6 @@
 package xdean.deannotation.checker;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.CLASS;
 
 import java.lang.annotation.Documented;
@@ -15,7 +14,7 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 @Meta
 @Documented
 @Retention(CLASS)
-@Target({ METHOD, ANNOTATION_TYPE })
+@Target(ANNOTATION_TYPE)
 public @interface CheckModifier {
   Modifier[] required() default {};
 

@@ -15,13 +15,12 @@ import com.google.auto.service.AutoService;
 
 import xdean.annotation.processor.toolkit.AssertException;
 import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
-import xdean.annotation.processor.toolkit.meta.AbstractMetaProcessor;
 import xdean.deannotation.checker.CheckModifier;
 
 @AutoService(Processor.class)
 @SupportedMetaAnnotation(CheckModifier.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-public class ModifierChecker extends AbstractMetaProcessor<CheckModifier> {
+public class ModifierChecker extends Checker<CheckModifier> {
 
   @Override
   protected void process(RoundEnvironment env, CheckModifier am, AnnotationMirror mid, Element element) throws AssertException {

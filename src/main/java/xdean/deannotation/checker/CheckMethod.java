@@ -8,8 +8,6 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import javax.lang.model.element.Modifier;
-
 import xdean.annotation.processor.toolkit.annotation.Meta;
 
 @Meta
@@ -18,9 +16,7 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 @Target({ METHOD, ANNOTATION_TYPE })
 public @interface CheckMethod {
 
-  Modifier[] requiredModifiers() default {};
-
-  Modifier[] forbiddenModifiers() default {};
+  CheckModifier modifier() default @CheckModifier;
 
   TypeRestrict returnType() default @TypeRestrict;
 
