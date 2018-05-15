@@ -1,11 +1,11 @@
-package xdean.deannotation.checker.assertMethod;
+package xdean.deannotation.checker.checkMethod;
 
-import xdean.deannotation.checker.AssertMethod;
+import xdean.deannotation.checker.CheckMethod;
 import xdean.deannotation.checker.TypeRestrict;
 import xdean.deannotation.checker.TypeRestrict.Type;
 
 public class BadUsage6 {
-  @AssertMethod(argTypes = {
+  @CheckMethod(argTypes = {
       @TypeRestrict(value = Number.class, type = Type.EXTEND)
   })
   public void func(String s) {

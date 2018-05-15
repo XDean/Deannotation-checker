@@ -1,4 +1,4 @@
-package xdean.deannotation.checker.assertMethod;
+package xdean.deannotation.checker.checkMethod;
 
 public class BadUsage1 {
   @Init
