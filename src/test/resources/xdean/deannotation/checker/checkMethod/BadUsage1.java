@@ -8,7 +8,7 @@ import xdean.deannotation.checker.TypeRestrict;
 
 public class BadUsage1 {
 
-  @CheckMethod(argCount = 0, modifier = @CheckModifier(required = PUBLIC), returnType = @TypeRestrict(void.class))
+  @CheckMethod(argCount = 0, modifier = @CheckModifier(require = PUBLIC), returnType = @TypeRestrict(void.class))
   public @interface Anno {
 
   }

@@ -26,9 +26,9 @@ public class ModifierChecker extends Checker<CheckModifier> {
   @Override
   protected void process(RoundEnvironment env, CheckModifier am, AnnotationMirror mid, Element element) throws AssertException {
     Set<Modifier> modifiers = element.getModifiers();
-    Arrays.stream(am.required())
+    Arrays.stream(am.require())
         .forEach(m -> assertThat(modifiers.contains(m)).log("Modifier required: " + m, element));
-    Arrays.stream(am.forbidden())
+    Arrays.stream(am.forbid())
         .forEach(m -> assertThat(!modifiers.contains(m)).log("Modifier forbidden: " + m, element));
   }
 }

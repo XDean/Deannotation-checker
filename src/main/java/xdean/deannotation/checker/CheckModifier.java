@@ -16,7 +16,7 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 @Retention(CLASS)
 @Target(ANNOTATION_TYPE)
 public @interface CheckModifier {
-  Modifier[] required() default {};
+  Modifier[] require() default {};
 
-  Modifier[] forbidden() default {};
+  Modifier[] forbid() default {};
 }

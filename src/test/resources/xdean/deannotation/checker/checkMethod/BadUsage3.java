@@ -7,7 +7,7 @@ import xdean.deannotation.checker.CheckModifier;
 
 public abstract class BadUsage3 {
 
-  @CheckMethod(modifier = @CheckModifier(forbidden = ABSTRACT))
+  @CheckMethod(modifier = @CheckModifier(forbid = ABSTRACT))
   public @interface Anno {
   }
 

@@ -6,7 +6,7 @@ import xdean.deannotation.checker.CheckMethod;
 import xdean.deannotation.checker.CheckModifier;
 
 public class BadUsage2 {
-  @CheckMethod(modifier = @CheckModifier(required = SYNCHRONIZED))
+  @CheckMethod(modifier = @CheckModifier(require = SYNCHRONIZED))
   public @interface Anno {
   }
 

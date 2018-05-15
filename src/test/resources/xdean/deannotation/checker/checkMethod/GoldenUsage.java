@@ -11,7 +11,7 @@ import xdean.deannotation.checker.TypeRestrict;
 import xdean.deannotation.checker.TypeRestrict.Type;
 
 public class GoldenUsage {
-  @CheckMethod(modifier = @CheckModifier(required = SYNCHRONIZED, forbidden = ABSTRACT),
+  @CheckMethod(modifier = @CheckModifier(require = SYNCHRONIZED, forbid = ABSTRACT),
       returnType = @TypeRestrict(List.class),
       argCount = 2, argTypes = {
           @TypeRestrict(value = Number.class, type = Type.EXTEND),
