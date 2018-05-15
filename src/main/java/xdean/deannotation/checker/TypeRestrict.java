@@ -30,9 +30,7 @@ public @interface TypeRestrict {
   }
 
   enum Type {
-    SUPER,
-    EQUAL,
-    EXTEND;
+    SUPER, EQUAL, EXTEND;
   }
 
   Class<?> value() default Irrelevant.class;
@@ -65,9 +63,18 @@ public @interface TypeRestrict {
 
     static String toString(TypeRestrict res, Elements es, Types ts) {
       TypeMirror tm = erasure(ts, ElementUtil.getAnnotationClassValue(es, res, r -> r.value()));
-      return res.type().name().toLowerCase() + " " + tm.toString();
+      switch (res.type()) {
+      case EQUAL:
+        return "type " + tm.toString();
+      case EXTEND:
+        return "type extends " + tm.toString();
+      case SUPER:
+        return "type super " + tm.toString();
+      default:
+        throw new IllegalStateException();
+      }
     }
-    
+
     static TypeMirror erasure(Types types, TypeMirror tm) {
       return tm.getKind() == TypeKind.VOID ? tm : types.erasure(tm);
     }
