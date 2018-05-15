@@ -1,12 +1,12 @@
 package xdean.deannotation.checker.checkMethod;
 
-import static javax.lang.model.element.Modifier.SYNCHRONIZED;
+import java.util.List;
 
 import xdean.deannotation.checker.CheckMethod;
-import xdean.deannotation.checker.CheckModifier;
+import xdean.deannotation.checker.TypeRestrict;
 
 public class BadUsage2 {
-  @CheckMethod(modifier = @CheckModifier(require = SYNCHRONIZED))
+  @CheckMethod(returnType = @TypeRestrict(List.class))
   public @interface Anno {
   }
 

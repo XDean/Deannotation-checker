@@ -14,10 +14,10 @@ public class CheckChildrenTest extends CompileTestCase {
   @Compiled(
       processors = ChildrenChecker.class,
       sources = {
-          "assertChildren/InheritAnno.java",
-          "assertChildren/NotInheritAnno.java",
-          "assertChildren/A.java",
-          "assertChildren/B.java",
+          "checkChildren/InheritAnno.java",
+          "checkChildren/NotInheritAnno.java",
+          "checkChildren/A.java",
+          "checkChildren/B.java",
       })
   public void test(Compilation c) throws Exception {
     CompilationSubject.assertThat(c).succeeded();
@@ -27,10 +27,10 @@ public class CheckChildrenTest extends CompileTestCase {
   @Compiled(
       processors = ChildrenChecker.class,
       sources = {
-          "assertChildren/InheritAnno.java",
-          "assertChildren/NotInheritAnno.java",
-          "assertChildren/A.java",
-          "assertChildren/C.java",
+          "checkChildren/InheritAnno.java",
+          "checkChildren/NotInheritAnno.java",
+          "checkChildren/A.java",
+          "checkChildren/C.java",
       })
   public void testInherit(Compilation c) throws Exception {
     CompilationSubject.assertThat(c).hadErrorCount(1);

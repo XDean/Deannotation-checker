@@ -13,9 +13,7 @@ public class CheckMethodTest extends CompileTestCase {
   @Test
   @Compiled(
       processors = MethodChecker.class,
-      sources = {
-          "checkMethod/GoldenUsage.java"
-      })
+      sources = "checkMethod/GoldenUsage.java")
   public void test(Compilation c) throws Exception {
     CompilationSubject.assertThat(c).succeeded();
   }
@@ -23,10 +21,7 @@ public class CheckMethodTest extends CompileTestCase {
   @Test
   @Compiled(
       processors = MethodChecker.class,
-      sources = {
-          "checkMethod/GoldenUsage.java",
-          "checkMethod/BadUsage1.java"
-      })
+      sources = "checkMethod/BadUsage1.java")
   public void testBadUsage1(Compilation c) throws Exception {
     CompilationSubject.assertThat(c).hadErrorCount(1);
   }
@@ -34,10 +29,7 @@ public class CheckMethodTest extends CompileTestCase {
   @Test
   @Compiled(
       processors = MethodChecker.class,
-      sources = {
-          "checkMethod/GoldenUsage.java",
-          "checkMethod/BadUsage2.java"
-      })
+      sources = "checkMethod/BadUsage2.java")
   public void testBadUsage2(Compilation c) throws Exception {
     CompilationSubject.assertThat(c).hadErrorCount(1);
   }
@@ -45,10 +37,7 @@ public class CheckMethodTest extends CompileTestCase {
   @Test
   @Compiled(
       processors = MethodChecker.class,
-      sources = {
-          "checkMethod/GoldenUsage.java",
-          "checkMethod/BadUsage3.java"
-      })
+      sources = "checkMethod/BadUsage3.java")
   public void testBadUsage3(Compilation c) throws Exception {
     CompilationSubject.assertThat(c).hadErrorCount(1);
   }
@@ -56,44 +45,8 @@ public class CheckMethodTest extends CompileTestCase {
   @Test
   @Compiled(
       processors = MethodChecker.class,
-      sources = {
-          "checkMethod/GoldenUsage.java",
-          "checkMethod/BadUsage4.java"
-      })
+      sources = "checkMethod/BadUsage4.java")
   public void testBadUsage4(Compilation c) throws Exception {
-    CompilationSubject.assertThat(c).hadErrorCount(1);
-  }
-
-  @Test
-  @Compiled(
-      processors = MethodChecker.class,
-      sources = {
-          "checkMethod/GoldenUsage.java",
-          "checkMethod/BadUsage5.java"
-      })
-  public void testBadUsage5(Compilation c) throws Exception {
-    CompilationSubject.assertThat(c).hadErrorCount(1);
-  }
-
-  @Test
-  @Compiled(
-      processors = MethodChecker.class,
-      sources = {
-          "checkMethod/GoldenUsage.java",
-          "checkMethod/BadUsage6.java"
-      })
-  public void testBadUsage6(Compilation c) throws Exception {
-    CompilationSubject.assertThat(c).hadErrorCount(1);
-  }
-
-  @Test
-  @Compiled(
-      processors = MethodChecker.class,
-      sources = {
-          "checkMethod/GoldenUsage.java",
-          "checkMethod/BadDefine1.java"
-      })
-  public void testBadDefine1(Compilation c) throws Exception {
     CompilationSubject.assertThat(c).hadErrorCount(1);
   }
 }

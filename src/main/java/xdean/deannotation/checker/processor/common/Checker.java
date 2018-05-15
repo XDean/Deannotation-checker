@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.processing.ProcessingEnvironment;
 
+import xdean.annotation.processor.toolkit.CommonUtil;
 import xdean.annotation.processor.toolkit.meta.AbstractMetaProcessor;
 
 public abstract class Checker<T extends Annotation> extends AbstractMetaProcessor<T> {
@@ -21,14 +22,12 @@ public abstract class Checker<T extends Annotation> extends AbstractMetaProcesso
           if (!(Checker.class.isAssignableFrom(f.getType()))) {
             throw new Error("@CheckerInject must annotated on Checker field: " + f);
           }
-          try {
+          return CommonUtil.uncheck(() -> {
             Object dependency = f.getType().newInstance();
             f.setAccessible(true);
             f.set(this, dependency);
             return (Checker<?>) dependency;
-          } catch (InstantiationException | IllegalAccessException e) {
-            throw new Error(e);
-          }
+          });
         })
         .collect(Collectors.toList());
   }
