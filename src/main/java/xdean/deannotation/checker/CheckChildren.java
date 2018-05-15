@@ -15,7 +15,7 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 @Documented
 @Retention(CLASS)
 @Target({ TYPE, ANNOTATION_TYPE })
-public @interface AssertChildren {
+public @interface CheckChildren {
   Class<? extends Annotation>[] annotated() default {};
 
   boolean includeAbstract() default false;

@@ -21,15 +21,15 @@ import com.google.auto.service.AutoService;
 import xdean.annotation.processor.toolkit.ElementUtil;
 import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
 import xdean.annotation.processor.toolkit.meta.AbstractMetaProcessor;
-import xdean.deannotation.checker.AssertChildren;
+import xdean.deannotation.checker.CheckChildren;
 
 @AutoService(Processor.class)
-@SupportedMetaAnnotation(AssertChildren.class)
+@SupportedMetaAnnotation(CheckChildren.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-public class AssertChildrenProcessor extends AbstractMetaProcessor<AssertChildren> {
+public class ChildrenChecker extends AbstractMetaProcessor<CheckChildren> {
 
   @Override
-  protected void process(RoundEnvironment env, AssertChildren ac, AnnotationMirror mid, Element element) {
+  protected void process(RoundEnvironment env, CheckChildren ac, AnnotationMirror mid, Element element) {
     TypeElement type = (TypeElement) element;
     List<TypeMirror> annotated = ElementUtil.getAnnotationClassArray(elements, ac, a -> a.annotated());
     ElementUtil.getAllSubClasses(types, env, type.asType())

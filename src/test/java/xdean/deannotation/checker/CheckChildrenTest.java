@@ -7,12 +7,12 @@ import com.google.testing.compile.CompilationSubject;
 
 import xdean.annotation.processor.toolkit.test.CompileTestCase;
 import xdean.annotation.processor.toolkit.test.Compiled;
-import xdean.deannotation.checker.processor.AssertChildrenProcessor;
+import xdean.deannotation.checker.processor.ChildrenChecker;
 
-public class AssertChildrenTest extends CompileTestCase {
+public class CheckChildrenTest extends CompileTestCase {
   @Test
   @Compiled(
-      processors = AssertChildrenProcessor.class,
+      processors = ChildrenChecker.class,
       sources = {
           "assertChildren/InheritAnno.java",
           "assertChildren/NotInheritAnno.java",
@@ -25,7 +25,7 @@ public class AssertChildrenTest extends CompileTestCase {
 
   @Test
   @Compiled(
-      processors = AssertChildrenProcessor.class,
+      processors = ChildrenChecker.class,
       sources = {
           "assertChildren/InheritAnno.java",
           "assertChildren/NotInheritAnno.java",

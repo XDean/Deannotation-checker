@@ -1,4 +1,4 @@
-package xdean.deannotation.checker.assertChildren;
+package xdean.deannotation.checker.checkChildren;
 
 @NotInheritAnno
 @InheritAnno
