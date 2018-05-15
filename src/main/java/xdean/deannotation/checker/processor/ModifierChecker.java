@@ -16,6 +16,7 @@ import com.google.auto.service.AutoService;
 import xdean.annotation.processor.toolkit.AssertException;
 import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
 import xdean.deannotation.checker.CheckModifier;
+import xdean.deannotation.checker.processor.common.Checker;
 
 @AutoService(Processor.class)
 @SupportedMetaAnnotation(CheckModifier.class)

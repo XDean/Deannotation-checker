@@ -8,6 +8,10 @@ public class BadUsage6 {
   @CheckMethod(argTypes = {
       @TypeRestrict(value = Number.class, type = Type.EXTEND)
   })
+  public @interface Anno {
+  }
+
+  @Anno
   public void func(String s) {
   }
 }

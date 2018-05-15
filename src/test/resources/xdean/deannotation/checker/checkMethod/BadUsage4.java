@@ -7,6 +7,10 @@ import xdean.deannotation.checker.TypeRestrict;
 
 public class BadUsage4 {
   @CheckMethod(returnType = @TypeRestrict(List.class))
+  public @interface Anno {
+  }
+
+  @Anno
   public void func() {
   }
 }

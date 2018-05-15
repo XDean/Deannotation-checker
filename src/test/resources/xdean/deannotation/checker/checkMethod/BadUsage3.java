@@ -8,5 +8,9 @@ import xdean.deannotation.checker.CheckModifier;
 public abstract class BadUsage3 {
 
   @CheckMethod(modifier = @CheckModifier(forbidden = ABSTRACT))
+  public @interface Anno {
+  }
+
+  @Anno
   public abstract void func();
 }

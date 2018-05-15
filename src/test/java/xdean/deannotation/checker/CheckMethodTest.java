@@ -14,7 +14,6 @@ public class CheckMethodTest extends CompileTestCase {
   @Compiled(
       processors = MethodChecker.class,
       sources = {
-          "checkMethod/Init.java",
           "checkMethod/GoldenUsage.java"
       })
   public void test(Compilation c) throws Exception {
@@ -25,7 +24,6 @@ public class CheckMethodTest extends CompileTestCase {
   @Compiled(
       processors = MethodChecker.class,
       sources = {
-          "checkMethod/Init.java",
           "checkMethod/GoldenUsage.java",
           "checkMethod/BadUsage1.java"
       })
@@ -37,7 +35,6 @@ public class CheckMethodTest extends CompileTestCase {
   @Compiled(
       processors = MethodChecker.class,
       sources = {
-          "checkMethod/Init.java",
           "checkMethod/GoldenUsage.java",
           "checkMethod/BadUsage2.java"
       })
@@ -49,7 +46,6 @@ public class CheckMethodTest extends CompileTestCase {
   @Compiled(
       processors = MethodChecker.class,
       sources = {
-          "checkMethod/Init.java",
           "checkMethod/GoldenUsage.java",
           "checkMethod/BadUsage3.java"
       })
@@ -61,7 +57,6 @@ public class CheckMethodTest extends CompileTestCase {
   @Compiled(
       processors = MethodChecker.class,
       sources = {
-          "checkMethod/Init.java",
           "checkMethod/GoldenUsage.java",
           "checkMethod/BadUsage4.java"
       })
@@ -73,7 +68,6 @@ public class CheckMethodTest extends CompileTestCase {
   @Compiled(
       processors = MethodChecker.class,
       sources = {
-          "checkMethod/Init.java",
           "checkMethod/GoldenUsage.java",
           "checkMethod/BadUsage5.java"
       })
@@ -85,7 +79,6 @@ public class CheckMethodTest extends CompileTestCase {
   @Compiled(
       processors = MethodChecker.class,
       sources = {
-          "checkMethod/Init.java",
           "checkMethod/GoldenUsage.java",
           "checkMethod/BadUsage6.java"
       })
@@ -97,7 +90,6 @@ public class CheckMethodTest extends CompileTestCase {
   @Compiled(
       processors = MethodChecker.class,
       sources = {
-          "checkMethod/Init.java",
           "checkMethod/GoldenUsage.java",
           "checkMethod/BadDefine1.java"
       })

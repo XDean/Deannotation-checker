@@ -4,6 +4,10 @@ import xdean.deannotation.checker.CheckMethod;
 
 public class BadUsage5 {
   @CheckMethod(argCount = 2)
+  public @interface Anno {
+  }
+
+  @Anno
   public void func(Integer i) {
   }
 }

@@ -17,6 +17,8 @@ import xdean.annotation.processor.toolkit.AssertException;
 import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
 import xdean.deannotation.checker.CheckMethod;
 import xdean.deannotation.checker.TypeRestrict;
+import xdean.deannotation.checker.processor.common.Checker;
+import xdean.deannotation.checker.processor.common.CheckerInject;
 
 @AutoService(Processor.class)
 @SupportedMetaAnnotation(CheckMethod.class)

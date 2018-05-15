@@ -1,4 +1,4 @@
-package xdean.deannotation.checker.processor;
+package xdean.deannotation.checker.processor.common;
 
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
@@ -23,6 +23,7 @@ public abstract class Checker<T extends Annotation> extends AbstractMetaProcesso
           }
           try {
             Object dependency = f.getType().newInstance();
+            f.setAccessible(true);
             f.set(this, dependency);
             return (Checker<?>) dependency;
           } catch (InstantiationException | IllegalAccessException e) {

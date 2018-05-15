@@ -11,16 +11,16 @@ import xdean.deannotation.checker.TypeRestrict;
 import xdean.deannotation.checker.TypeRestrict.Type;
 
 public class GoldenUsage {
-  @Init
-  public void init() {
-  }
-
   @CheckMethod(modifier = @CheckModifier(required = SYNCHRONIZED, forbidden = ABSTRACT),
       returnType = @TypeRestrict(List.class),
       argCount = 2, argTypes = {
           @TypeRestrict(value = Number.class, type = Type.EXTEND),
           @TypeRestrict(value = String.class, type = Type.SUPER)
       })
+  public @interface Anno {
+  }
+
+  @Anno
   public synchronized List<String> func(Integer i, Object o) {
     return null;
   }

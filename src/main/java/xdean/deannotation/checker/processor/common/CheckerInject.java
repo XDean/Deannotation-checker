@@ -1,4 +1,4 @@
-package xdean.deannotation.checker.processor;
+package xdean.deannotation.checker.processor.common;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Target(FIELD)
-@interface CheckerInject {
+public @interface CheckerInject {
 
 }
