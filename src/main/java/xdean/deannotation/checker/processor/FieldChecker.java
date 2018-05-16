@@ -13,7 +13,6 @@ import com.google.auto.service.AutoService;
 import xdean.annotation.processor.toolkit.AssertException;
 import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
 import xdean.deannotation.checker.CheckField;
-import xdean.deannotation.checker.CheckType;
 import xdean.deannotation.checker.processor.common.Checker;
 import xdean.deannotation.checker.processor.common.CheckerInject;
 
@@ -28,12 +27,14 @@ public class FieldChecker extends Checker<CheckField> {
   @CheckerInject
   ModifierChecker modifierChecker;
 
+  @CheckerInject
+  TypeChecker typeChecker;  
+
   @Override
   protected void process(RoundEnvironment env, CheckField cf, AnnotationMirror mid, Element element) throws AssertException {
     assertThat(element instanceof VariableElement).doNoThing();
     annotationChecker.process(env, cf.annotation(), mid, element);
     modifierChecker.process(env, cf.modifier(), mid, element);
-    assertThat(CheckType.Handler.match(element.asType(), cf.type(), elements, types))
-        .log("Field must be " + CheckType.Handler.toString(cf.type(), elements, types), element);
+    typeChecker.process(env, cf.type(), mid, element);
   }
 }

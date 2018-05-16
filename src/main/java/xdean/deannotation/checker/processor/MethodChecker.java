@@ -31,14 +31,16 @@ public class MethodChecker extends Checker<CheckMethod> {
   @CheckerInject
   ModifierChecker modifierChecker;
 
+  @CheckerInject
+  TypeChecker typeChecker;
+
   @Override
   protected void process(RoundEnvironment env, CheckMethod am, AnnotationMirror mid, Element element) throws AssertException {
     assertThat(element instanceof ExecutableElement).doNoThing();
     ExecutableElement method = (ExecutableElement) element;
     annotationChecker.process(env, am.annotation(), mid, element);
     modifierChecker.process(env, am.modifier(), mid, element);
-    assertThat(CheckType.Handler.match(method.getReturnType(), am.returnType(), elements, types))
-        .log("Must return " + CheckType.Handler.toString(am.returnType(), elements, types), element);
+    typeChecker.check(am.returnType(), element, method.getReturnType());
     List<? extends VariableElement> parameters = method.getParameters();
     CheckType[] argTypes = am.argTypes();
     assertThat((am.argCount() < 0 && argTypes.length <= parameters.size()) || am.argCount() == parameters.size())
@@ -46,8 +48,7 @@ public class MethodChecker extends Checker<CheckMethod> {
     for (int i = 0; i < argTypes.length; i++) {
       CheckType res = argTypes[i];
       VariableElement param = parameters.get(i);
-      assertThat(CheckType.Handler.match(param.asType(), res, elements, types))
-          .log("Argument must " + CheckType.Handler.toString(res, elements, types), param);
+      typeChecker.check(res, param, param.asType());
     }
   }
 
