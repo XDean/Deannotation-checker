@@ -14,6 +14,8 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 @Retention(CLASS)
 @Target(ANNOTATION_TYPE)
 public @interface CheckMethod {
+  
+  CheckAnnotation annotation() default @CheckAnnotation;
 
   CheckModifier modifier() default @CheckModifier;
 

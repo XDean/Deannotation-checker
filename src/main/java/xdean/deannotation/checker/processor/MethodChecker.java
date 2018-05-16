@@ -26,12 +26,16 @@ import xdean.deannotation.checker.processor.common.CheckerInject;
 public class MethodChecker extends Checker<CheckMethod> {
 
   @CheckerInject
+  AnnotationChecker annotationChecker;
+
+  @CheckerInject
   ModifierChecker modifierChecker;
 
   @Override
   protected void process(RoundEnvironment env, CheckMethod am, AnnotationMirror mid, Element element) throws AssertException {
     assertThat(element instanceof ExecutableElement).doNoThing();
     ExecutableElement method = (ExecutableElement) element;
+    annotationChecker.process(env, am.annotation(), mid, element);
     modifierChecker.process(env, am.modifier(), mid, element);
     assertThat(TypeRestrict.Handler.match(method.getReturnType(), am.returnType(), elements, types))
         .log("Must return " + TypeRestrict.Handler.toString(am.returnType(), elements, types), element);
