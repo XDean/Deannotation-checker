@@ -3,10 +3,10 @@ package xdean.deannotation.checker.checkField;
 import java.util.List;
 
 import xdean.deannotation.checker.CheckField;
-import xdean.deannotation.checker.TypeRestrict;
+import xdean.deannotation.checker.CheckType;
 
 public class BadUsage2 {
-  @CheckField(type = @TypeRestrict(List.class))
+  @CheckField(type = @CheckType(List.class))
   public @interface Anno {
   }
 

@@ -18,5 +18,5 @@ public @interface CheckField {
 
   CheckModifier modifier() default @CheckModifier;
 
-  TypeRestrict type() default @TypeRestrict;
+  CheckType type() default @CheckType;
 }

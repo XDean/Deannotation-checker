@@ -16,7 +16,7 @@ import com.google.auto.service.AutoService;
 import xdean.annotation.processor.toolkit.AssertException;
 import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
 import xdean.deannotation.checker.CheckMethod;
-import xdean.deannotation.checker.TypeRestrict;
+import xdean.deannotation.checker.CheckType;
 import xdean.deannotation.checker.processor.common.Checker;
 import xdean.deannotation.checker.processor.common.CheckerInject;
 
@@ -37,17 +37,17 @@ public class MethodChecker extends Checker<CheckMethod> {
     ExecutableElement method = (ExecutableElement) element;
     annotationChecker.process(env, am.annotation(), mid, element);
     modifierChecker.process(env, am.modifier(), mid, element);
-    assertThat(TypeRestrict.Handler.match(method.getReturnType(), am.returnType(), elements, types))
-        .log("Must return " + TypeRestrict.Handler.toString(am.returnType(), elements, types), element);
+    assertThat(CheckType.Handler.match(method.getReturnType(), am.returnType(), elements, types))
+        .log("Must return " + CheckType.Handler.toString(am.returnType(), elements, types), element);
     List<? extends VariableElement> parameters = method.getParameters();
-    TypeRestrict[] argTypes = am.argTypes();
+    CheckType[] argTypes = am.argTypes();
     assertThat((am.argCount() < 0 && argTypes.length <= parameters.size()) || am.argCount() == parameters.size())
         .log("Must only have " + am.argCount() + " arguments.", element);
     for (int i = 0; i < argTypes.length; i++) {
-      TypeRestrict res = argTypes[i];
+      CheckType res = argTypes[i];
       VariableElement param = parameters.get(i);
-      assertThat(TypeRestrict.Handler.match(param.asType(), res, elements, types))
-          .log("Argument must " + TypeRestrict.Handler.toString(res, elements, types), param);
+      assertThat(CheckType.Handler.match(param.asType(), res, elements, types))
+          .log("Argument must " + CheckType.Handler.toString(res, elements, types), param);
     }
   }
 

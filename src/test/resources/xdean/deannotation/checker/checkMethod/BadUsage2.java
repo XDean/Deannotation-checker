@@ -3,10 +3,10 @@ package xdean.deannotation.checker.checkMethod;
 import java.util.List;
 
 import xdean.deannotation.checker.CheckMethod;
-import xdean.deannotation.checker.TypeRestrict;
+import xdean.deannotation.checker.CheckType;
 
 public class BadUsage2 {
-  @CheckMethod(returnType = @TypeRestrict(List.class))
+  @CheckMethod(returnType = @CheckType(List.class))
   public @interface Anno {
   }
 

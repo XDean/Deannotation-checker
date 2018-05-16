@@ -8,13 +8,13 @@ import javax.annotation.CheckForNull;
 import xdean.deannotation.checker.CheckAnnotation;
 import xdean.deannotation.checker.CheckField;
 import xdean.deannotation.checker.CheckModifier;
-import xdean.deannotation.checker.TypeRestrict;
+import xdean.deannotation.checker.CheckType;
 
 public class GoldenUsage {
   @CheckField(
       modifier = @CheckModifier(require = TRANSIENT, forbid = VOLATILE),
       annotation = @CheckAnnotation(require = CheckForNull.class),
-      type = @TypeRestrict(int.class))
+      type = @CheckType(int.class))
   public @interface Anno {
   }
 

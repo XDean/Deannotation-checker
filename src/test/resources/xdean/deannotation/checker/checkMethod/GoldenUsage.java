@@ -10,17 +10,17 @@ import org.junit.Test;
 import xdean.deannotation.checker.CheckAnnotation;
 import xdean.deannotation.checker.CheckMethod;
 import xdean.deannotation.checker.CheckModifier;
-import xdean.deannotation.checker.TypeRestrict;
-import xdean.deannotation.checker.TypeRestrict.Type;
+import xdean.deannotation.checker.CheckType;
+import xdean.deannotation.checker.CheckType.Type;
 
 public class GoldenUsage {
   @CheckMethod(
       modifier = @CheckModifier(require = SYNCHRONIZED, forbid = ABSTRACT),
       annotation = @CheckAnnotation(require = Test.class),
-      returnType = @TypeRestrict(List.class),
+      returnType = @CheckType(List.class),
       argCount = 2, argTypes = {
-          @TypeRestrict(value = Number.class, type = Type.EXTEND),
-          @TypeRestrict(value = String.class, type = Type.SUPER)
+          @CheckType(value = Number.class, type = Type.EXTEND),
+          @CheckType(value = String.class, type = Type.SUPER)
       })
   public @interface Anno {
   }

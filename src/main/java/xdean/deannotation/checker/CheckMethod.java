@@ -19,9 +19,9 @@ public @interface CheckMethod {
 
   CheckModifier modifier() default @CheckModifier;
 
-  TypeRestrict returnType() default @TypeRestrict;
+  CheckType returnType() default @CheckType;
 
   int argCount() default -1;
 
-  TypeRestrict[] argTypes() default {};
+  CheckType[] argTypes() default {};
 }
