@@ -3,7 +3,7 @@ package xdean.deannotation.checker.checkField;
 import static javax.lang.model.element.Modifier.TRANSIENT;
 import static javax.lang.model.element.Modifier.VOLATILE;
 
-import javax.annotation.CheckForNull;
+import org.junit.Rule;
 
 import xdean.deannotation.checker.CheckAnnotation;
 import xdean.deannotation.checker.CheckField;
@@ -13,12 +13,12 @@ import xdean.deannotation.checker.CheckType;
 public class GoldenUsage {
   @CheckField(
       modifier = @CheckModifier(require = TRANSIENT, forbid = VOLATILE),
-      annotation = @CheckAnnotation(require = CheckForNull.class),
+      annotation = @CheckAnnotation(require = Rule.class),
       type = @CheckType(int.class))
   public @interface Anno {
   }
 
-  @CheckForNull
+  @Rule
   @Anno
   transient int i;
 }

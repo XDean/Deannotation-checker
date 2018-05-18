@@ -1,19 +1,20 @@
 package xdean.deannotation.checker.checkParam;
 
-import javax.annotation.CheckForNull;
-
 import xdean.deannotation.checker.CheckAnnotation;
 import xdean.deannotation.checker.CheckParam;
 import xdean.deannotation.checker.CheckType;
 
 public class GoldenUsage {
   @CheckParam(
-      annotation = @CheckAnnotation(require = CheckForNull.class),
+      annotation = @CheckAnnotation(require = Anno2.class),
       type = @CheckType(int.class))
-  public @interface Anno {
+  @interface Anno {
   }
 
-  public void func(@Anno @CheckForNull int i) {
+  @interface Anno2 {
+  }
+
+  public void func(@Anno @Anno2 int i) {
 
   }
 }
