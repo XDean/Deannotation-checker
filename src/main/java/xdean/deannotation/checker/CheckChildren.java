@@ -11,6 +11,11 @@ import java.lang.annotation.Target;
 
 import xdean.annotation.processor.toolkit.annotation.Meta;
 
+/**
+ * Beta.
+ * 
+ * @author Dean Xu (XDean@github.com)
+ */
 @Meta
 @Documented
 @Retention(CLASS)

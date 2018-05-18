@@ -10,12 +10,23 @@ import java.lang.annotation.Target;
 
 import xdean.annotation.processor.toolkit.annotation.Meta;
 
+/**
+ * Check the target element's annotation
+ * 
+ * @author Dean Xu (XDean@github.com)
+ */
 @Meta
 @Documented
 @Retention(CLASS)
 @Target(ANNOTATION_TYPE)
 public @interface CheckAnnotation {
+  /**
+   * Required annotations. Error happens when one of the annotation absent.
+   */
   Class<? extends Annotation>[] require() default {};
 
+  /**
+   * Forbidden annotations. Error happens when one of the annotation present.
+   */
   Class<? extends Annotation>[] forbid() default {};
 }
