@@ -1,7 +1,5 @@
 package xdean.deannotation.checker;
 
-import org.junit.Test;
-
 import com.google.testing.compile.Compilation;
 import com.google.testing.compile.CompilationSubject;
 
@@ -10,7 +8,6 @@ import xdean.test.compile.CompileTestCase;
 import xdean.test.compile.Compiled;
 
 public class CheckMethodTest extends CompileTestCase {
-  @Test
   @Compiled(
       processors = MethodChecker.class,
       sources = "checkMethod/GoldenUsage.java")
@@ -18,7 +15,6 @@ public class CheckMethodTest extends CompileTestCase {
     CompilationSubject.assertThat(c).succeeded();
   }
 
-  @Test
   @Compiled(
       processors = MethodChecker.class,
       sources = "checkMethod/BadUsage1.java")
@@ -26,7 +22,6 @@ public class CheckMethodTest extends CompileTestCase {
     CompilationSubject.assertThat(c).hadErrorCount(1);
   }
 
-  @Test
   @Compiled(
       processors = MethodChecker.class,
       sources = "checkMethod/BadUsage2.java")
@@ -34,7 +29,6 @@ public class CheckMethodTest extends CompileTestCase {
     CompilationSubject.assertThat(c).hadErrorCount(1);
   }
 
-  @Test
   @Compiled(
       processors = MethodChecker.class,
       sources = "checkMethod/BadUsage3.java")
@@ -42,7 +36,6 @@ public class CheckMethodTest extends CompileTestCase {
     CompilationSubject.assertThat(c).hadErrorCount(1);
   }
 
-  @Test
   @Compiled(
       processors = MethodChecker.class,
       sources = "checkMethod/BadUsage4.java")

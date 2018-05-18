@@ -1,7 +1,5 @@
 package xdean.deannotation.checker;
 
-import org.junit.Test;
-
 import com.google.testing.compile.Compilation;
 import com.google.testing.compile.CompilationSubject;
 
@@ -10,7 +8,6 @@ import xdean.test.compile.CompileTestCase;
 import xdean.test.compile.Compiled;
 
 public class CheckTypeTest extends CompileTestCase {
-  @Test
   @Compiled(
       processors = TypeChecker.class,
       sources = "checkType/GoldenUsage.java")
@@ -18,7 +15,6 @@ public class CheckTypeTest extends CompileTestCase {
     CompilationSubject.assertThat(c).succeeded();
   }
 
-  @Test
   @Compiled(
       processors = TypeChecker.class,
       sources = "checkType/BadUsage1.java")
@@ -26,7 +22,6 @@ public class CheckTypeTest extends CompileTestCase {
     CompilationSubject.assertThat(c).hadErrorCount(1);
   }
 
-  @Test
   @Compiled(
       processors = TypeChecker.class,
       sources = "checkType/BadUsage2.java")
