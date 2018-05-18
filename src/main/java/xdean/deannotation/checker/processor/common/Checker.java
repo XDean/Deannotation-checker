@@ -19,9 +19,7 @@ public abstract class Checker<T extends Annotation> extends AbstractMetaProcesso
     dependencies = Arrays.stream(this.getClass().getDeclaredFields())
         .filter(f -> f.isAnnotationPresent(CheckerInject.class))
         .map(f -> {
-          if (!(Checker.class.isAssignableFrom(f.getType()))) {
-            throw new Error("@CheckerInject must annotated on Checker field: " + f);
-          }
+          assertThat(Checker.class.isAssignableFrom(f.getType())).message("@CheckerInject must annotated on Checker field: " + f);
           return CommonUtil.uncheck(() -> {
             Object dependency = f.getType().newInstance();
             f.setAccessible(true);
