@@ -7,6 +7,17 @@ Dean Checker Framework
 
 Get the error in advance at compile period!
 
+- [Get Start](#get-start)
+- [Sample](#sample-usage)
+- [Features](#features)
+  - [`@CheckType`](#checktype)
+  - [`@CheckAnnotation`](#checkannotation)
+  - [`@CheckModifier`](#checkmodifier)
+  - [`@CheckClass`](#checkclass)
+  - [`@CheckField`](#checkfield)
+  - [`@CheckMethod`](#checkmethod)
+  - [`@CheckParam`](#checkparam)
+
 # Get Start
 
 ```xml
@@ -40,18 +51,14 @@ public void func(int i) { // this line will give compile error '[5,15] Must only
 ![AssertMethodEclipse.jpg](doc/image/AssertMethodEclipse.jpg)
 
 # Features
-
-- [`@CheckType`](#checktype)
-- [`@CheckAnnotation`](#checkannotation)
-- [`@CheckModifier`](#checkmodifier)
-- [`@CheckClass`](#checkclass)
-- [`@CheckField`](#checkfield)
-- [`@CheckMethod`](#checkmethod)
-- [`@CheckParam`](#checkparam)
   
-# `CheckType`
+## `CheckType` 
 
-Check the annotated type. Note this is different with `@CheckClass`.
+[Sample Code](src/test/resources/xdean/deannotation/checker/checkType)
+
+Check the annotated element's type. Usually not use alone but in other check annotation. 
+
+Note it's different with `@CheckClass`. `@CheckClass` check the class itself, while `CheckType` only check the type use.
 
 ### Attributes
 
@@ -66,27 +73,33 @@ Check the annotated type. Note this is different with `@CheckClass`.
 2. `EXTEND`, the type must assignable to target type
 3. `SUPER`, the type must assignable from target type
 
-# `CheckAnnotation`
+## `CheckAnnotation`
 
-## Attributes
+[Sample Code](src/test/resources/xdean/deannotation/checker/checkAnnotation)
+
+### Attributes
 
 | Name | Type |  Default | Description |
 | -- | -- | -- | -- |
 | require | `Class<? extends Annotation>[]` | `{}` | required annotations |
 | forbid | `Class<? extends Annotation>[]` | `{}` | forbidden annotations |
 
-# `CheckModifier`
+## `CheckModifier`
 
-## Attributes
+[Sample Code](src/test/resources/xdean/deannotation/checker/checkModifier)
+
+### Attributes
 
 | Name | Type |  Default | Description |
 | -- | -- | -- | -- |
 | require | `Modifier[]` | `{}` | required modifiers |
 | forbid | `Modifier[]` | `{}` | forbidden modifiers |
 
-# `CheckClass`
+## `CheckClass`
 
-## Attributes
+[Sample Code](src/test/resources/xdean/deannotation/checker/checkClass)
+
+### Attributes
 
 | Name | Type |  Default | Description |
 | -- | -- | -- | -- |
@@ -94,9 +107,11 @@ Check the annotated type. Note this is different with `@CheckClass`.
 | modifier | `CheckModifier` | `@CheckModifier` | check the class's modifiers |
 | annotation | `CheckAnnotation` | `@CheckAnnotation` | check the class's annotations |
 
-# `CheckField`
+## `CheckField`
 
-## Attributes
+[Sample Code](src/test/resources/xdean/deannotation/checker/checkField)
+
+### Attributes
 
 | Name | Type |  Default | Description |
 | -- | -- | -- | -- |
@@ -104,9 +119,11 @@ Check the annotated type. Note this is different with `@CheckClass`.
 | modifier | `CheckModifier` | `@CheckModifier` | check the field's modifiers |
 | annotation | `CheckAnnotation` | `@CheckAnnotation` | check the field's annotations |
 
-# `CheckMethod`
+## `CheckMethod`
 
-## Attributes
+[Sample Code](src/test/resources/xdean/deannotation/checker/checkMethod)
+
+### Attributes
 
 | Name | Type |  Default | Description |
 | -- | -- | -- | -- |
@@ -116,9 +133,11 @@ Check the annotated type. Note this is different with `@CheckClass`.
 | argCount | int | -1 | method must have exactly parameter count if the value is not negative |
 | argTypes | `CheckParam[]` | `{}` | check parameters with one to one correspondence<br>`argTypes` length can't more than `argCount` if it is not negative |
 
-# `CheckParam`
+## `CheckParam`
 
-## Attributes
+[Sample Code](src/test/resources/xdean/deannotation/checker/checkParam)
+
+### Attributes
 
 | Name | Type |  Default | Description |
 | -- | -- | -- | -- |
