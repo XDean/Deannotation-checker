@@ -41,7 +41,7 @@ public class MethodChecker extends Checker<CheckMethod> {
   @Override
   protected void process(RoundEnvironment env, CheckMethod am, AnnotationMirror mid, Element element) throws AssertException {
     assertThat(element instanceof ExecutableElement).doNoThing();
-    assertThat(element.getKind() == ElementKind.METHOD || element.getKind() == ElementKind.CONSTRUCTOR).doNoThing();
+    assertThat(element.getKind() == ElementKind.METHOD).doNoThing();
     ExecutableElement method = (ExecutableElement) element;
     annotationChecker.process(env, am.annotation(), mid, element);
     modifierChecker.process(env, am.modifier(), mid, element);
