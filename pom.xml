@@ -1,66 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.github.XDean</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>1.0</version>
-	</parent>
-	<artifactId>deannotation-checker</artifactId>
-	<version>0.2.0</version>
-	<packaging>jar</packaging>
-	<name>Deannotation Checker</name>
-	<description>Annotation Checker Framework</description>
-	<url>${repository.url}</url>
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.github.XDean</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>1.1</version>
+  </parent>
+  <artifactId>deannotation-checker</artifactId>
+  <version>0.2.0</version>
+  <packaging>jar</packaging>
+  <name>Deannotation Checker</name>
+  <description>Annotation Checker Framework</description>
+  <url>https://github.com/XDean/deannotation-checker</url>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.github.XDean</groupId>
-				<artifactId>deannotation-parent</artifactId>
-				<version>0.2.4</version>
-				<scope>import</scope>
-				<type>pom</type>
-			</dependency>
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>23.1-jre</version>
-			</dependency>
+  <dependencyManagement>
+    <dependencies>
       <dependency>
         <groupId>com.github.XDean</groupId>
-        <artifactId>AnnotationProcessorToolkit</artifactId>
-        <version>0.1.7</version>
+        <artifactId>dependency-parent</artifactId>
+        <version>1.1</version>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
-		</dependencies>
-	</dependencyManagement>
+    </dependencies>
+  </dependencyManagement>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.github.XDean</groupId>
-			<artifactId>AnnotationProcessorToolkit</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.auto.service</groupId>
-			<artifactId>auto-service</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.google.testing.compile</groupId>
-			<artifactId>compile-testing</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.github.XDean</groupId>
-			<artifactId>spring-annotation</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>com.github.XDean</groupId>
+      <artifactId>AnnotationProcessorToolkit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.auto.service</groupId>
+      <artifactId>auto-service</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.XDean</groupId>
+      <artifactId>compile-testing</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-	<scm>
-		<connection>scm:${scm.url}</connection>
-		<developerConnection>scm:${scm.url}</developerConnection>
-		<url>${scm.url}</url>
-	</scm>
+  <scm>
+    <connection>scm:${scm.url}</connection>
+    <developerConnection>scm:${scm.url}</developerConnection>
+    <url>${scm.url}</url>
+  </scm>
 </project>

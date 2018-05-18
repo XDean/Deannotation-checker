@@ -5,9 +5,9 @@ import org.junit.Test;
 import com.google.testing.compile.Compilation;
 import com.google.testing.compile.CompilationSubject;
 
-import xdean.annotation.processor.toolkit.test.CompileTestCase;
-import xdean.annotation.processor.toolkit.test.Compiled;
 import xdean.deannotation.checker.processor.AnnotationChecker;
+import xdean.test.compile.CompileTestCase;
+import xdean.test.compile.Compiled;
 
 public class CheckAnnotationTest extends CompileTestCase {
   @Test
