@@ -17,6 +17,7 @@ Get the error in advance at compile period!
   - [`@CheckField`](#checkfield)
   - [`@CheckMethod`](#checkmethod)
   - [`@CheckParam`](#checkparam)
+- [Convention](#convention)
 
 # Get Start
 
@@ -143,3 +144,9 @@ Note it's different with `@CheckClass`. `@CheckClass` check the class itself, wh
 | -- | -- | -- | -- |
 | type | `CheckType` | `@CheckType` | check the parameter's type |
 | annotation | `CheckAnnotation` | `@CheckAnnotation` | check the parameter's annotations |
+
+# Convention
+
+1. Check annotation any attribute has default value.
+2. Empty check annotation will not do any check
+3. Check annotation only check matched element. That means `@CheckMethod` will not check `Field` even if annotated on `Field`.
