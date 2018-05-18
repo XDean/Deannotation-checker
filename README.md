@@ -17,30 +17,20 @@ Get the error in advance at compile period!
 </dependency>
 ```
 
-and you may read [Use Meta Annotation](https://github.com/XDean/AnnotationProcessorToolkit/blob/master/doc/Meta.md#use-meta-annotation) to understand how to use meta-annotation.
+and you may need to read [Use Meta Annotation](https://github.com/XDean/AnnotationProcessorToolkit/blob/master/doc/Meta.md#use-meta-annotation) to understand how to use meta-annotation.
 
-# Features
-
-- [`@AssertMethod`](#assertmethod)
-- [`@AssertChildren`](#assertchildren)
-- [Common Annotations](#common-annotations)
-  - [`@TypreRestrict`](#typerestrict)
-
-
-# `AssertMethod`
-
-## Sample Usage
+# Sample Usage
 
 ```java
-@AssertMethod(argCount = 0, returnType = @TypeRestrict(void.class))
+@CheckMethod(argCount = 0, returnType = @CheckType(void.class))
 public @interface Init {
    ...
 }
 ```
 
 ```java
-@AssertMethod(argCount = 0, returnType = @TypeRestrict(void.class))
-public @interface Init { // this line will give compile error '[5,15] Must only have 0 arguments'
+@Init
+public void func(int i) { // this line will give compile error '[5,15] Must only have 0 arguments'
    ...
 }
 ```
@@ -49,33 +39,88 @@ public @interface Init { // this line will give compile error '[5,15] Must only 
 
 ![AssertMethodEclipse.jpg](doc/image/AssertMethodEclipse.jpg)
 
-## Attributes
+# Features
 
-| Name | Type |  Default | Description |
-| -- | -- | -- | -- |
-| returnType | [`TypreRestrict`](#typerestrict) | `Irrelevant` | return type must match the `TypeRestrict` |
-| requiredModifier | `Modifier[]` | `{}` | method must have all these modifiers |
-| forbiddenModifier | `Modifier[]` | `{}` | method must have none of theses modfiers |
-| argCount | int | -1 | method must have exactly parameter count if the value is not negative |
-| argTypes | [`TypreRestrict[]`](#typerestrict) | `{}` | parameters must match the types with one to one correspondence<br>`argTypes` length can't more than `argCount` if it is not negative |
+- [`@CheckType`](#checktype)
+- [`@CheckAnnotation`](#checkannotation)
+- [`@CheckModifier`](#checkmodifier)
+- [`@CheckClass`](#checkclass)
+- [`@CheckField`](#checkfield)
+- [`@CheckMethod`](#checkmethod)
+- [`@CheckParam`](#checkparam)
+  
+# `CheckType`
 
-# `AssertChildren`
-
-# Common Annotations
-
-## `TypeRestrict`
-
-Restriction of type. Use `TypeRestrict.Handler` to check the restriction.
+Check the annotated type. Note this is different with `@CheckClass`.
 
 ### Attributes
 
 | Name | Type |  Default | Description |
 | -- | -- | -- | -- |
-| value | `Class` | `Irrelevant` | target class, if it's `Irrelevant`, the restriction will match any type |
-| type | `Type` | `EQUAL` | the restriction type |
+| value | `Class` | `Irrelevant` | target type, if it's `Irrelevant`, the check will always pass |
+| type | `Type` | `EQUAL` | check type |
 
 ### Type
 
 1. `EQUAL`, the type must equals target type
 2. `EXTEND`, the type must assignable to target type
 3. `SUPER`, the type must assignable from target type
+
+# `CheckAnnotation`
+
+## Attributes
+
+| Name | Type |  Default | Description |
+| -- | -- | -- | -- |
+| require | `Class<? extends Annotation>[]` | `{}` | required annotations |
+| forbid | `Class<? extends Annotation>[]` | `{}` | forbidden annotations |
+
+# `CheckModifier`
+
+## Attributes
+
+| Name | Type |  Default | Description |
+| -- | -- | -- | -- |
+| require | `Modifier[]` | `{}` | required modifiers |
+| forbid | `Modifier[]` | `{}` | forbidden modifiers |
+
+# `CheckClass`
+
+## Attributes
+
+| Name | Type |  Default | Description |
+| -- | -- | -- | -- |
+| implement | `Class<?>[]` | `{}` | check the class implements(extends) all the classes |
+| modifier | `CheckModifier` | `@CheckModifier` | check the class's modifiers |
+| annotation | `CheckAnnotation` | `@CheckAnnotation` | check the class's annotations |
+
+# `CheckField`
+
+## Attributes
+
+| Name | Type |  Default | Description |
+| -- | -- | -- | -- |
+| type | `CheckType` | `@CheckType` | check the field's type |
+| modifier | `CheckModifier` | `@CheckModifier` | check the field's modifiers |
+| annotation | `CheckAnnotation` | `@CheckAnnotation` | check the field's annotations |
+
+# `CheckMethod`
+
+## Attributes
+
+| Name | Type |  Default | Description |
+| -- | -- | -- | -- |
+| modifier | `CheckModifier` | `@CheckModifier` | check the method's modifiers |
+| annotation | `CheckAnnotation` | `@CheckAnnotation` | check the method's annotations |
+| returnType | `CheckType` | `Irrelevant` | check the method's return type |
+| argCount | int | -1 | method must have exactly parameter count if the value is not negative |
+| argTypes | `CheckParam[]` | `{}` | check parameters with one to one correspondence<br>`argTypes` length can't more than `argCount` if it is not negative |
+
+# `CheckParam`
+
+## Attributes
+
+| Name | Type |  Default | Description |
+| -- | -- | -- | -- |
+| type | `CheckType` | `@CheckType` | check the parameter's type |
+| annotation | `CheckAnnotation` | `@CheckAnnotation` | check the parameter's annotations |

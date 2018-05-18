@@ -36,7 +36,7 @@ public class ChildrenChecker extends AbstractMetaProcessor<CheckChildren> {
         .filter(te -> ac.includeAbstract() || !te.getModifiers().contains(Modifier.ABSTRACT))
         .filter(te -> !Objects.equals(te, type))
         .forEach(te -> handleAssert(() -> {
-          Set<TypeMirror> annotationTypes = ElementUtil.getInheritAnnotationMirrors(te)
+          Set<TypeMirror> annotationTypes = ElementUtil.getInheritAnnotationMirrors(te, types)
               .stream()
               .map(am -> (TypeMirror) am.getAnnotationType())
               .collect(Collectors.toSet());
