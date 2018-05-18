@@ -7,6 +7,7 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 
 import com.google.auto.service.AutoService;
@@ -33,7 +34,15 @@ public class TypeChecker extends Checker<CheckType> {
 
   @Override
   protected void process(RoundEnvironment env, CheckType ct, AnnotationMirror mid, Element element) throws AssertException {
-    check(ct, element, element.asType());
+    TypeMirror type = element.asType();
+    /*
+     * give package or executable to Types will lead error, see
+     * http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/com/sun/tools/
+     * javac/model/JavacTypes.java#JavacTypes.isAssignable%28javax.lang.model.type.TypeMirror%
+     * 2Cjavax.lang.model.type. TypeMirror%29
+     */
+    assertThat(!(type.getKind() == TypeKind.PACKAGE || type.getKind() == TypeKind.EXECUTABLE)).doNoThing();
+    check(ct, element, type);
   }
 
   /**

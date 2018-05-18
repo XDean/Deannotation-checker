@@ -8,6 +8,7 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.VariableElement;
 
@@ -40,6 +41,7 @@ public class MethodChecker extends Checker<CheckMethod> {
   @Override
   protected void process(RoundEnvironment env, CheckMethod am, AnnotationMirror mid, Element element) throws AssertException {
     assertThat(element instanceof ExecutableElement).doNoThing();
+    assertThat(element.getKind() == ElementKind.METHOD || element.getKind() == ElementKind.CONSTRUCTOR).doNoThing();
     ExecutableElement method = (ExecutableElement) element;
     annotationChecker.process(env, am.annotation(), mid, element);
     modifierChecker.process(env, am.modifier(), mid, element);

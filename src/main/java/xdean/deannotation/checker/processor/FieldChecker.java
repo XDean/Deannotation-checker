@@ -6,7 +6,7 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.VariableElement;
+import javax.lang.model.element.ElementKind;
 
 import com.google.auto.service.AutoService;
 
@@ -28,11 +28,11 @@ public class FieldChecker extends Checker<CheckField> {
   ModifierChecker modifierChecker;
 
   @CheckerInject
-  TypeChecker typeChecker;  
+  TypeChecker typeChecker;
 
   @Override
   protected void process(RoundEnvironment env, CheckField cf, AnnotationMirror mid, Element element) throws AssertException {
-    assertThat(element instanceof VariableElement).doNoThing();
+    assertThat(element.getKind() == ElementKind.FIELD).doNoThing();
     annotationChecker.process(env, cf.annotation(), mid, element);
     modifierChecker.process(env, cf.modifier(), mid, element);
     typeChecker.process(env, cf.type(), mid, element);
