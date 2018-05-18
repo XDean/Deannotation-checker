@@ -23,5 +23,5 @@ public @interface CheckMethod {
 
   int argCount() default -1;
 
-  CheckParam[] argTypes() default {};
+  CheckParam[] args() default {};
 }

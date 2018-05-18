@@ -47,7 +47,7 @@ public class MethodChecker extends Checker<CheckMethod> {
     modifierChecker.process(env, am.modifier(), mid, element);
     typeChecker.check(am.returnType(), element, method.getReturnType());
     List<? extends VariableElement> parameters = method.getParameters();
-    CheckParam[] argTypes = am.argTypes();
+    CheckParam[] argTypes = am.args();
     assertThat((am.argCount() < 0 && argTypes.length <= parameters.size()) || am.argCount() == parameters.size())
         .log("Must only have " + am.argCount() + " arguments.", element);
     for (int i = 0; i < argTypes.length; i++) {
@@ -59,7 +59,7 @@ public class MethodChecker extends Checker<CheckMethod> {
 
   @Override
   protected void processMeta(RoundEnvironment env, CheckMethod am, Element element) throws AssertException {
-    assertThat(am.argCount() < 0 || am.argCount() >= am.argTypes().length)
+    assertThat(am.argCount() < 0 || am.argCount() >= am.args().length)
         .log("argCount must not greater than argTypes length.", element, CheckMethod.class);
   }
 }

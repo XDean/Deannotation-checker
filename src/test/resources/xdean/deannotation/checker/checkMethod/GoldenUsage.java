@@ -19,7 +19,7 @@ public class GoldenUsage {
       modifier = @CheckModifier(require = SYNCHRONIZED, forbid = ABSTRACT),
       annotation = @CheckAnnotation(require = Test.class),
       returnType = @CheckType(List.class),
-      argCount = 2, argTypes = {
+      argCount = 2, args = {
           @CheckParam(type = @CheckType(value = Number.class, type = Type.EXTEND)),
           @CheckParam(type = @CheckType(value = String.class, type = Type.SUPER))
       })
