@@ -14,7 +14,7 @@ public class CheckModifierTest extends CompileTestCase {
   @Compiled(
       processors = ModifierChecker.class,
       sources = "checkModifier/GoldenUsage.java")
-  public void test(Compilation c) throws Exception {
+  public void testGoldenUsage(Compilation c) throws Exception {
     CompilationSubject.assertThat(c).succeeded();
   }
 

@@ -19,7 +19,7 @@ public class CheckChildrenTest extends CompileTestCase {
           "checkChildren/A.java",
           "checkChildren/B.java",
       })
-  public void test(Compilation c) throws Exception {
+  public void testGoldenUsage(Compilation c) throws Exception {
     CompilationSubject.assertThat(c).succeeded();
   }
 

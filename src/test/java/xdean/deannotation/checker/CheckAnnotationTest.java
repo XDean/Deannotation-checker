@@ -14,7 +14,7 @@ public class CheckAnnotationTest extends CompileTestCase {
   @Compiled(
       processors = AnnotationChecker.class,
       sources = "checkAnnotation/GoldenUsage.java")
-  public void test(Compilation c) throws Exception {
+  public void testGoldenUsage(Compilation c) throws Exception {
     CompilationSubject.assertThat(c).succeeded();
   }
 

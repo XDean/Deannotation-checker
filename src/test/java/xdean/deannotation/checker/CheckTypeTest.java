@@ -14,7 +14,7 @@ public class CheckTypeTest extends CompileTestCase {
   @Compiled(
       processors = TypeChecker.class,
       sources = "checkType/GoldenUsage.java")
-  public void test(Compilation c) throws Exception {
+  public void testGoldenUsage(Compilation c) throws Exception {
     CompilationSubject.assertThat(c).succeeded();
   }
 
