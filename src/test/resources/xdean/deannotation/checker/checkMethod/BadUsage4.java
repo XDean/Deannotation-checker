@@ -1,13 +1,12 @@
 package xdean.deannotation.checker.checkMethod;
 
 import xdean.deannotation.checker.CheckMethod;
+import xdean.deannotation.checker.CheckParam;
 import xdean.deannotation.checker.CheckType;
 import xdean.deannotation.checker.CheckType.Type;
 
 public class BadUsage4 {
-  @CheckMethod(argTypes = {
-      @CheckType(value = Number.class, type = Type.EXTEND)
-  })
+  @CheckMethod(argTypes = @CheckParam(type = @CheckType(value = Number.class, type = Type.EXTEND)))
   public @interface Anno {
   }
 

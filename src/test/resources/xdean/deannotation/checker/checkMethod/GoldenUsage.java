@@ -10,6 +10,7 @@ import org.junit.Test;
 import xdean.deannotation.checker.CheckAnnotation;
 import xdean.deannotation.checker.CheckMethod;
 import xdean.deannotation.checker.CheckModifier;
+import xdean.deannotation.checker.CheckParam;
 import xdean.deannotation.checker.CheckType;
 import xdean.deannotation.checker.CheckType.Type;
 
@@ -19,8 +20,8 @@ public class GoldenUsage {
       annotation = @CheckAnnotation(require = Test.class),
       returnType = @CheckType(List.class),
       argCount = 2, argTypes = {
-          @CheckType(value = Number.class, type = Type.EXTEND),
-          @CheckType(value = String.class, type = Type.SUPER)
+          @CheckParam(type = @CheckType(value = Number.class, type = Type.EXTEND)),
+          @CheckParam(type = @CheckType(value = String.class, type = Type.SUPER))
       })
   public @interface Anno {
   }

@@ -7,14 +7,13 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
-import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.Types;
 
 import com.google.auto.service.AutoService;
 
 import xdean.annotation.processor.toolkit.AssertException;
 import xdean.annotation.processor.toolkit.ElementUtil;
+import xdean.annotation.processor.toolkit.TypeUtil;
 import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
 import xdean.deannotation.checker.CheckType;
 import xdean.deannotation.checker.CheckType.Irrelevant;
@@ -45,11 +44,11 @@ public class TypeChecker extends Checker<CheckType> {
    * @param type the type to check
    */
   public void check(CheckType ct, Element element, TypeMirror type) {
-    TypeMirror target = erasure(types, ElementUtil.getAnnotationClassValue(elements, ct, r -> r.value()));
+    TypeMirror target = TypeUtil.erasure(types, ElementUtil.getAnnotationClassValue(elements, ct, r -> r.value()));
     if (types.isSameType(target, irrelevant)) {
       return;
     }
-    type = erasure(types, type);
+    type = TypeUtil.erasure(types, type);
     switch (ct.type()) {
     case EQUAL:
       assertThat(types.isSameType(type, target)).log("Must be " + type.toString(), element);
@@ -63,9 +62,5 @@ public class TypeChecker extends Checker<CheckType> {
     default:
       throw new IllegalStateException();
     }
-  }
-
-  public static TypeMirror erasure(Types types, TypeMirror tm) {
-    return tm.getKind() == TypeKind.VOID ? tm : types.erasure(tm);
   }
 }

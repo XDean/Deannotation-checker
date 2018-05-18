@@ -16,7 +16,7 @@ import com.google.auto.service.AutoService;
 import xdean.annotation.processor.toolkit.AssertException;
 import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
 import xdean.deannotation.checker.CheckMethod;
-import xdean.deannotation.checker.CheckType;
+import xdean.deannotation.checker.CheckParam;
 import xdean.deannotation.checker.processor.common.Checker;
 import xdean.deannotation.checker.processor.common.CheckerInject;
 
@@ -34,6 +34,9 @@ public class MethodChecker extends Checker<CheckMethod> {
   @CheckerInject
   TypeChecker typeChecker;
 
+  @CheckerInject
+  ParamChecker paramChecker;
+
   @Override
   protected void process(RoundEnvironment env, CheckMethod am, AnnotationMirror mid, Element element) throws AssertException {
     assertThat(element instanceof ExecutableElement).doNoThing();
@@ -42,13 +45,13 @@ public class MethodChecker extends Checker<CheckMethod> {
     modifierChecker.process(env, am.modifier(), mid, element);
     typeChecker.check(am.returnType(), element, method.getReturnType());
     List<? extends VariableElement> parameters = method.getParameters();
-    CheckType[] argTypes = am.argTypes();
+    CheckParam[] argTypes = am.argTypes();
     assertThat((am.argCount() < 0 && argTypes.length <= parameters.size()) || am.argCount() == parameters.size())
         .log("Must only have " + am.argCount() + " arguments.", element);
     for (int i = 0; i < argTypes.length; i++) {
-      CheckType res = argTypes[i];
+      CheckParam res = argTypes[i];
       VariableElement param = parameters.get(i);
-      typeChecker.check(res, param, param.asType());
+      paramChecker.process(env, res, mid, param);
     }
   }
 
