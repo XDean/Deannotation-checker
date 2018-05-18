@@ -6,19 +6,20 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 
 import com.google.auto.service.AutoService;
 
 import xdean.annotation.processor.toolkit.AssertException;
 import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
-import xdean.deannotation.checker.CheckType;
+import xdean.deannotation.checker.CheckParam;
 import xdean.deannotation.checker.processor.common.Checker;
 import xdean.deannotation.checker.processor.common.CheckerInject;
 
 @AutoService(Processor.class)
-@SupportedMetaAnnotation(CheckType.class)
+@SupportedMetaAnnotation(CheckParam.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-public class ParamChecker extends Checker<CheckType> {
+public class ParamChecker extends Checker<CheckParam> {
 
   @CheckerInject
   AnnotationChecker annotationChecker;
@@ -27,7 +28,9 @@ public class ParamChecker extends Checker<CheckType> {
   TypeChecker typeChecker;
 
   @Override
-  protected void process(RoundEnvironment env, CheckType ct, AnnotationMirror mid, Element element) throws AssertException {
-
+  protected void process(RoundEnvironment env, CheckParam cp, AnnotationMirror mid, Element element) throws AssertException {
+    assertThat(element.getKind() == ElementKind.PARAMETER).doNoThing();
+    annotationChecker.process(env, cp.annotation(), mid, element);
+    typeChecker.process(env, cp.type(), mid, element);
   }
 }

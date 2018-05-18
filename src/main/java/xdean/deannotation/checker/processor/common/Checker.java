@@ -34,6 +34,5 @@ public abstract class Checker<T extends Annotation> extends AbstractMetaProcesso
   public synchronized void init(ProcessingEnvironment processingEnv) {
     super.init(processingEnv);
     dependencies.forEach(c -> c.init(processingEnv));
-
   }
 }
