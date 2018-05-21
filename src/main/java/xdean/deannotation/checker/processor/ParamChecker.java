@@ -1,5 +1,6 @@
 package xdean.deannotation.checker.processor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.processing.Processor;
@@ -38,6 +39,9 @@ public class ParamChecker extends Checker<CheckParam> {
 
   @Override
   public List<String> checkDefine(CheckParam t, Element annotatedElement) {
-    return attributeBadDefine(typeChecker.checkDefine(t.type(), annotatedElement), "type");
+    List<String> list = new ArrayList<>();
+    list.addAll(attributeBadDefine(annotationChecker.checkDefine(t.annotation(), annotatedElement), "annotation"));
+    list.addAll(attributeBadDefine(typeChecker.checkDefine(t.type(), annotatedElement), "type"));
+    return list;
   }
 }

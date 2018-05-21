@@ -65,9 +65,11 @@ public class MethodChecker extends Checker<CheckMethod> {
     if (t.argCount() >= 0 && t.argCount() < t.args().length) {
       list.add("argCount must not greater than argTypes length");
     }
+    list.addAll(attributeBadDefine(annotationChecker.checkDefine(t.annotation(), annotatedElement), "annotation"));
+    list.addAll(attributeBadDefine(modifierChecker.checkDefine(t.modifier(), annotatedElement), "modifier"));
     list.addAll(attributeBadDefine(typeChecker.checkDefine(t.returnType(), annotatedElement), "returnType"));
     Arrays.stream(t.args())
         .forEach(cp -> list.addAll(attributeBadDefine(paramChecker.checkDefine(cp, annotatedElement), "args")));
-    return super.checkDefine(t, annotatedElement);
+    return list;
   }
 }

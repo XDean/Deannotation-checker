@@ -1,5 +1,8 @@
 package xdean.deannotation.checker.processor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -41,5 +44,13 @@ public class ClassChecker extends Checker<CheckClass> {
           TypeMirror target = TypeUtil.erasure(types, tm);
           assertThat(types.isAssignable(type, target)).log("Must implements: " + tm.toString(), element);
         });
+  }
+
+  @Override
+  public List<String> checkDefine(CheckClass t, Element annotatedElement) {
+    List<String> list = new ArrayList<>();
+    list.addAll(attributeBadDefine(annotationChecker.checkDefine(t.annotation(), annotatedElement), "annotation"));
+    list.addAll(attributeBadDefine(modifierChecker.checkDefine(t.modifier(), annotatedElement), "modifier"));
+    return list;
   }
 }

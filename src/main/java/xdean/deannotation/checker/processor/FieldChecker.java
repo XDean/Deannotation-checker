@@ -1,5 +1,6 @@
 package xdean.deannotation.checker.processor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.processing.Processor;
@@ -41,7 +42,11 @@ public class FieldChecker extends Checker<CheckField> {
   }
 
   @Override
-  public List<String> checkDefine(CheckField cf, Element annotatedElement) {
-    return attributeBadDefine(typeChecker.checkDefine(cf.type(), annotatedElement), "type");
+  public List<String> checkDefine(CheckField t, Element annotatedElement) {
+    List<String> list = new ArrayList<>();
+    list.addAll(attributeBadDefine(annotationChecker.checkDefine(t.annotation(), annotatedElement), "annotation"));
+    list.addAll(attributeBadDefine(modifierChecker.checkDefine(t.modifier(), annotatedElement), "modifier"));
+    list.addAll(attributeBadDefine(typeChecker.checkDefine(t.type(), annotatedElement), "type"));
+    return list;
   }
 }
