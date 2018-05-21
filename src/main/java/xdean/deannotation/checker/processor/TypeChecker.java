@@ -56,8 +56,7 @@ public class TypeChecker extends Checker<CheckType> {
     List<TypeMirror> baseTypes = getBaseTypes(ct);
     if (baseTypes.size() == 0) {
       list.add("@CheckType must define target type");
-    }
-    if (baseTypes.size() != 1 && (ct.type() == Type.EQUAL || ct.type() == Type.SUPER)) {
+    } else if (baseTypes.size() != 1 && (ct.type() == Type.EQUAL || ct.type() == Type.SUPER)) {
       list.add("@CheckType with type EQUAL or SUPER can only define one target type");
     }
     return list;

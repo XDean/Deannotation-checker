@@ -48,9 +48,9 @@ public abstract class Checker<T extends Annotation> extends AbstractMetaProcesso
   @Override
   protected final void processMeta(RoundEnvironment env, T t, Element element) throws AssertException {
     super.processMeta(env, t, element);
-    List<String> checkDefine = checkDefine(t, element);
-    checkDefine.forEach(s -> error().log(s, element, metaClass));
-    assertThat(checkDefine.isEmpty()).doNoThing();
+    List<String> errors = checkDefine(t, element);
+    assertThat(errors.isEmpty())
+        .todo(() -> error().log(errors.stream().collect(Collectors.joining("\n")), element, metaClass));
   }
 
   /**
