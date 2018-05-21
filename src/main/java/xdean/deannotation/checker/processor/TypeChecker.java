@@ -52,10 +52,7 @@ public class TypeChecker extends Checker<CheckType> {
   @Override
   protected void processMeta(RoundEnvironment env, CheckType ct, Element element) throws AssertException {
     super.processMeta(env, ct, element);
-    List<TypeMirror> baseTypes = ElementUtil.getAnnotationClassArray(elements, ct, r -> r.value())
-        .stream()
-        .map(tm -> TypeUtil.erasure(types, tm))
-        .collect(Collectors.toList());
+    List<TypeMirror> baseTypes = getBaseTypes(ct);
     assertThat(baseTypes.size() > 0).log("@CheckType must define target type.", element, CheckType.class);
     assertThat(baseTypes.size() == 1 || ct.type() == Type.EXTEND_ALL || ct.type() == Type.EXTEND_ONE)
         .log("@CheckType with type EQUAL or SUPER can only define one target type.", element, CheckType.class);
@@ -70,15 +67,12 @@ public class TypeChecker extends Checker<CheckType> {
    * @param name name for this type to log
    */
   public void check(CheckType ct, Element element, TypeMirror typeToCheck, String name) {
-    List<TypeMirror> baseTypes = ElementUtil.getAnnotationClassArray(elements, ct, r -> r.value())
-        .stream()
-        .map(tm -> TypeUtil.erasure(types, tm))
-        .collect(Collectors.toList());
-    TypeMirror target = baseTypes.stream().findFirst().get();
+    List<TypeMirror> baseTypes = getBaseTypes(ct);
     if (baseTypes.stream().anyMatch(t -> types.isSameType(t, irrelevant))) {
       return;
     }
     TypeMirror type = TypeUtil.erasure(types, typeToCheck);
+    TypeMirror target = baseTypes.stream().findFirst().get();
     switch (ct.type()) {
     case EQUAL:
       assertThat(types.isSameType(type, target)).log(name + " must be " + target.toString(), element);
@@ -92,11 +86,18 @@ public class TypeChecker extends Checker<CheckType> {
       break;
     case EXTEND_ONE:
       assertThat(baseTypes.stream().anyMatch(eachTarget -> types.isAssignable(type, eachTarget)))
-          .log(name + " must extend one of " + baseTypes.stream().map(tm -> tm.toString()).collect(Collectors.joining(", ")),
-              element);
+          .log(name + " must extend one of (" + baseTypes.stream().map(tm -> tm.toString()).collect(Collectors.joining(", "))
+              + ")", element);
       break;
     default:
       throw new IllegalStateException();
     }
+  }
+
+  private List<TypeMirror> getBaseTypes(CheckType ct) {
+    return ElementUtil.getAnnotationClassArray(elements, ct, r -> r.value())
+        .stream()
+        .map(tm -> TypeUtil.erasure(types, tm))
+        .collect(Collectors.toList());
   }
 }

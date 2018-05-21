@@ -1,5 +1,6 @@
 package xdean.deannotation.checker.processor;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.processing.Processor;
@@ -62,5 +63,6 @@ public class MethodChecker extends Checker<CheckMethod> {
     assertThat(am.argCount() < 0 || am.argCount() >= am.args().length)
         .log("argCount must not greater than argTypes length.", element, CheckMethod.class);
     typeChecker.processMeta(env, am.returnType(), element);
+    Arrays.stream(am.args()).forEach(cp -> paramChecker.processMeta(env, cp, element));
   }
 }

@@ -37,4 +37,10 @@ public class FieldChecker extends Checker<CheckField> {
     modifierChecker.process(env, cf.modifier(), mid, element);
     typeChecker.process(env, cf.type(), mid, element);
   }
+
+  @Override
+  protected void processMeta(RoundEnvironment env, CheckField cf, Element element) throws AssertException {
+    super.processMeta(env, cf, element);
+    typeChecker.processMeta(env, cf.type(), element);
+  }
 }

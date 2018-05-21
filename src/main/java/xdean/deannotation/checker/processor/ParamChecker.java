@@ -33,4 +33,10 @@ public class ParamChecker extends Checker<CheckParam> {
     annotationChecker.process(env, cp.annotation(), mid, element);
     typeChecker.process(env, cp.type(), mid, element);
   }
+
+  @Override
+  protected void processMeta(RoundEnvironment env, CheckParam t, Element element) throws AssertException {
+    super.processMeta(env, t, element);
+    typeChecker.processMeta(env, t.type(), element);
+  }
 }
