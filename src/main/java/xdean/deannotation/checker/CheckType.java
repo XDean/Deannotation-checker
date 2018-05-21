@@ -36,15 +36,19 @@ public @interface CheckType {
      */
     EQUAL,
     /**
-     * The target type must extend the base type.
+     * The target type must extend all the base types.
      */
-    EXTEND;
+    EXTEND_ALL,
+    /**
+     * The target type must extend one of the base types.
+     */
+    EXTEND_ONE;
   }
 
   /**
    * The base type to do the check. If it's {@link Irrelevant}, the check will always pass.
    */
-  Class<?> value() default Irrelevant.class;
+  Class<?>[] value() default { Irrelevant.class };
 
   /**
    * The check type.

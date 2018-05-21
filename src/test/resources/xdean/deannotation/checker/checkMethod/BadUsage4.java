@@ -6,7 +6,7 @@ import xdean.deannotation.checker.CheckType;
 import xdean.deannotation.checker.CheckType.Type;
 
 public class BadUsage4 {
-  @CheckMethod(args = @CheckParam(type = @CheckType(value = Number.class, type = Type.EXTEND)))
+  @CheckMethod(args = @CheckParam(type = @CheckType(value = Number.class, type = Type.EXTEND_ALL)))
   public @interface Anno {
   }
 

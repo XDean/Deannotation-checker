@@ -10,7 +10,7 @@ public class GoldenUsage {
   public @interface Anno1 {
   }
 
-  @CheckType(value = Number.class, type = Type.EXTEND)
+  @CheckType(value = Number.class, type = Type.EXTEND_ALL)
   public @interface Anno2 {
   }
 

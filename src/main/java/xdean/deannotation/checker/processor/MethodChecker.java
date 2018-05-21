@@ -61,5 +61,6 @@ public class MethodChecker extends Checker<CheckMethod> {
   protected void processMeta(RoundEnvironment env, CheckMethod am, Element element) throws AssertException {
     assertThat(am.argCount() < 0 || am.argCount() >= am.args().length)
         .log("argCount must not greater than argTypes length.", element, CheckMethod.class);
+    typeChecker.processMeta(env, am.returnType(), element);
   }
 }
