@@ -25,9 +25,11 @@ Get the error in advance at compile period!
 <dependency>
   <groupId>com.github.XDean</groupId>
   <artifactId>deannotation-checker</artifactId>
-  <version>x.x.x</version>
+  <version>0.2.0-SNAPSHOT</version>
 </dependency>
 ```
+
+<sub>Note that if you use SNAPSHOT version, you should ensure sonatype snapshot repository in your repositories list `https://oss.sonatype.org/content/repositories/snapshots/com/github/XDean/deannotation-checker/0.2.0-SNAPSHOT/`</sub>
 
 and you may need to read [Use Meta Annotation](https://github.com/XDean/AnnotationProcessorToolkit/blob/master/doc/Meta.md#use-meta-annotation) to understand how to use meta-annotation.
 
