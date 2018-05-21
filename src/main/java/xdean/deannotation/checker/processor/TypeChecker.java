@@ -42,7 +42,7 @@ public class TypeChecker extends Checker<CheckType> {
      * 2Cjavax.lang.model.type. TypeMirror%29
      */
     assertThat(!(type.getKind() == TypeKind.PACKAGE || type.getKind() == TypeKind.EXECUTABLE)).doNoThing();
-    check(ct, element, type);
+    check(ct, element, type, "Type");
   }
 
   /**
@@ -51,8 +51,9 @@ public class TypeChecker extends Checker<CheckType> {
    * @param ct the annotation
    * @param element the annotated element
    * @param type the type to check
+   * @param name name for this type to log
    */
-  public void check(CheckType ct, Element element, TypeMirror type) {
+  public void check(CheckType ct, Element element, TypeMirror type, String name) {
     TypeMirror target = TypeUtil.erasure(types, ElementUtil.getAnnotationClassValue(elements, ct, r -> r.value()));
     if (types.isSameType(target, irrelevant)) {
       return;
@@ -60,13 +61,13 @@ public class TypeChecker extends Checker<CheckType> {
     type = TypeUtil.erasure(types, type);
     switch (ct.type()) {
     case EQUAL:
-      assertThat(types.isSameType(type, target)).log("Must be " + type.toString(), element);
+      assertThat(types.isSameType(type, target)).log(name + " must be " + target.toString(), element);
       break;
     case EXTEND:
-      assertThat(types.isAssignable(type, target)).log("Must extend " + type.toString(), element);
+      assertThat(types.isAssignable(type, target)).log(name + "must extend " + target.toString(), element);
       break;
     case SUPER:
-      assertThat(types.isAssignable(target, type)).log("Must super " + type.toString(), element);
+      assertThat(types.isAssignable(target, type)).log(name + "must super " + target.toString(), element);
       break;
     default:
       throw new IllegalStateException();

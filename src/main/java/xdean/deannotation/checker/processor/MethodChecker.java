@@ -45,7 +45,7 @@ public class MethodChecker extends Checker<CheckMethod> {
     ExecutableElement method = (ExecutableElement) element;
     annotationChecker.process(env, am.annotation(), mid, element);
     modifierChecker.process(env, am.modifier(), mid, element);
-    typeChecker.check(am.returnType(), element, method.getReturnType());
+    typeChecker.check(am.returnType(), element, method.getReturnType(), "Return type");
     List<? extends VariableElement> parameters = method.getParameters();
     CheckParam[] argTypes = am.args();
     assertThat((am.argCount() < 0 && argTypes.length <= parameters.size()) || am.argCount() == parameters.size())
