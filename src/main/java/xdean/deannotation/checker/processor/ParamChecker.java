@@ -1,5 +1,7 @@
 package xdean.deannotation.checker.processor;
 
+import java.util.List;
+
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -35,8 +37,7 @@ public class ParamChecker extends Checker<CheckParam> {
   }
 
   @Override
-  protected void processMeta(RoundEnvironment env, CheckParam t, Element element) throws AssertException {
-    super.processMeta(env, t, element);
-    typeChecker.processMeta(env, t.type(), element);
+  public List<String> checkDefine(CheckParam t, Element annotatedElement) {
+    return attributeBadDefine(typeChecker.checkDefine(t.type(), annotatedElement), "type");
   }
 }

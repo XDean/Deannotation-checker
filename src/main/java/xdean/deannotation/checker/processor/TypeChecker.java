@@ -1,5 +1,6 @@
 package xdean.deannotation.checker.processor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,12 +51,16 @@ public class TypeChecker extends Checker<CheckType> {
   }
 
   @Override
-  protected void processMeta(RoundEnvironment env, CheckType ct, Element element) throws AssertException {
-    super.processMeta(env, ct, element);
+  public List<String> checkDefine(CheckType ct, Element element) {
+    List<String> list = new ArrayList<>();
     List<TypeMirror> baseTypes = getBaseTypes(ct);
-    assertThat(baseTypes.size() > 0).log("@CheckType must define target type.", element, CheckType.class);
-    assertThat(baseTypes.size() == 1 || ct.type() == Type.EXTEND_ALL || ct.type() == Type.EXTEND_ONE)
-        .log("@CheckType with type EQUAL or SUPER can only define one target type.", element, CheckType.class);
+    if (baseTypes.size() == 0) {
+      list.add("@CheckType must define target type");
+    }
+    if (baseTypes.size() != 1 && (ct.type() == Type.EQUAL || ct.type() == Type.SUPER)) {
+      list.add("@CheckType with type EQUAL or SUPER can only define one target type");
+    }
+    return list;
   }
 
   /**

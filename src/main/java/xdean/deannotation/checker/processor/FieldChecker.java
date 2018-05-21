@@ -1,5 +1,7 @@
 package xdean.deannotation.checker.processor;
 
+import java.util.List;
+
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -39,8 +41,7 @@ public class FieldChecker extends Checker<CheckField> {
   }
 
   @Override
-  protected void processMeta(RoundEnvironment env, CheckField cf, Element element) throws AssertException {
-    super.processMeta(env, cf, element);
-    typeChecker.processMeta(env, cf.type(), element);
+  public List<String> checkDefine(CheckField cf, Element annotatedElement) {
+    return attributeBadDefine(typeChecker.checkDefine(cf.type(), annotatedElement), "type");
   }
 }

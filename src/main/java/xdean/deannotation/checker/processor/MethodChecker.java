@@ -1,5 +1,6 @@
 package xdean.deannotation.checker.processor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -59,10 +60,14 @@ public class MethodChecker extends Checker<CheckMethod> {
   }
 
   @Override
-  protected void processMeta(RoundEnvironment env, CheckMethod am, Element element) throws AssertException {
-    assertThat(am.argCount() < 0 || am.argCount() >= am.args().length)
-        .log("argCount must not greater than argTypes length.", element, CheckMethod.class);
-    typeChecker.processMeta(env, am.returnType(), element);
-    Arrays.stream(am.args()).forEach(cp -> paramChecker.processMeta(env, cp, element));
+  public List<String> checkDefine(CheckMethod t, Element annotatedElement) {
+    List<String> list = new ArrayList<>();
+    if (t.argCount() >= 0 && t.argCount() < t.args().length) {
+      list.add("argCount must not greater than argTypes length");
+    }
+    list.addAll(attributeBadDefine(typeChecker.checkDefine(t.returnType(), annotatedElement), "returnType"));
+    Arrays.stream(t.args())
+        .forEach(cp -> list.addAll(attributeBadDefine(paramChecker.checkDefine(cp, annotatedElement), "args")));
+    return super.checkDefine(t, annotatedElement);
   }
 }
