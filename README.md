@@ -1,7 +1,6 @@
 # Deannotation Checker
 [![Build Status](https://travis-ci.org/XDean/Deannotation-checker.svg?branch=master)](https://travis-ci.org/XDean/Deannotation-checker)
 [![codecov.io](http://codecov.io/github/XDean/deannotation-checker/coverage.svg?branch=master)](https://codecov.io/gh/XDean/deannotation-checker/branch/master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.XDean/deannotation-checker/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.XDean/deannotation-checker)
 
 Dean Checker Framework
 
@@ -67,14 +66,15 @@ Note it's different with `@CheckClass`. `@CheckClass` check the class itself, wh
 
 | Name | Type |  Default | Description |
 | -- | -- | -- | -- |
-| value | `Class` | `Irrelevant` | target type, if it's `Irrelevant`, the check will always pass |
+| value | `Class[]` | `{Irrelevant}` | target type, if it contains `Irrelevant`, the check will always pass |
 | type | `Type` | `EQUAL` | check type |
 
 ### Type
 
-1. `EQUAL`, the type must equals target type
-2. `EXTEND`, the type must assignable to target type
-3. `SUPER`, the type must assignable from target type
+1. `EQUAL`, the type must equals target type, only support one target type
+2. `SUPER`, the type must assignable from target type, only support one target type
+3. `EXTEND_ONE`, the type must assignable to all the target types
+4. `EXTEND_ALL`, the type must assignable to one of the target types
 
 ## `CheckAnnotation`
 
