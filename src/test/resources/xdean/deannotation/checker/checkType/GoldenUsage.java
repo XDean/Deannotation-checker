@@ -1,6 +1,8 @@
 package xdean.deannotation.checker.checkType;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import xdean.deannotation.checker.CheckType;
 import xdean.deannotation.checker.CheckType.Type;
@@ -10,7 +12,7 @@ public class GoldenUsage {
   public @interface Anno1 {
   }
 
-  @CheckType(value = Number.class, type = Type.EXTEND_ALL)
+  @CheckType(value = { Number.class, List.class }, type = Type.EXTEND_ALL)
   public @interface Anno2 {
   }
 
@@ -18,8 +20,12 @@ public class GoldenUsage {
   public @interface Anno3 {
   }
 
+  @CheckType(value = { Number.class, List.class }, type = Type.EXTEND_ONE)
+  public @interface Anno4 {
+  }
+
   @Anno2
-  static abstract class A extends Number {
+  static abstract class A extends Number implements List<Integer> {
   }
 
   public void func(@Anno1 Number i) {
@@ -27,4 +33,7 @@ public class GoldenUsage {
 
   @Anno3
   Serializable o;
+
+  @Anno4
+  ArrayList<String> al;
 }

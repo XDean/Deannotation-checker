@@ -28,4 +28,18 @@ public class CheckTypeTest extends CompileTestCase {
   public void testBadUsage2(Compilation c) throws Exception {
     CompilationSubject.assertThat(c).hadErrorCount(1);
   }
+
+  @Compiled(
+      processors = TypeChecker.class,
+      sources = "checkType/BadDefine1.java")
+  public void testBadDefine1(Compilation c) throws Exception {
+    CompilationSubject.assertThat(c).hadErrorCount(1);
+  }
+
+  @Compiled(
+      processors = TypeChecker.class,
+      sources = "checkType/BadDefine2.java")
+  public void testBadDefine2(Compilation c) throws Exception {
+    CompilationSubject.assertThat(c).hadErrorCount(1);
+  }
 }

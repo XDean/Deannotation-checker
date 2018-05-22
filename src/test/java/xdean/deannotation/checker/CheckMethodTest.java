@@ -17,6 +17,13 @@ public class CheckMethodTest extends CompileTestCase {
 
   @Compiled(
       processors = MethodChecker.class,
+      sources = "checkMethod/BadDefine1.java")
+  public void testBadDefine1(Compilation c) throws Exception {
+    CompilationSubject.assertThat(c).hadErrorCount(1);
+  }
+
+  @Compiled(
+      processors = MethodChecker.class,
       sources = "checkMethod/BadUsage1.java")
   public void testBadUsage1(Compilation c) throws Exception {
     CompilationSubject.assertThat(c).hadErrorCount(1);
