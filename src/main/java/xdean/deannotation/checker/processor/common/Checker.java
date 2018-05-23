@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
-import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 
 import xdean.annotation.processor.toolkit.AssertException;
@@ -42,10 +41,6 @@ public abstract class Checker<T extends Annotation> extends AbstractMetaProcesso
   }
 
   @Override
-  protected void process(RoundEnvironment env, T t, AnnotationMirror mid, Element element) throws AssertException {
-  }
-
-  @Override
   protected final void processMeta(RoundEnvironment env, T t, Element element) throws AssertException {
     super.processMeta(env, t, element);
     List<String> errors = checkDefine(t, element);
@@ -55,7 +50,7 @@ public abstract class Checker<T extends Annotation> extends AbstractMetaProcesso
 
   /**
    * Check the checker annotation's definition.
-   * 
+   *
    * @param t the annotation value
    * @param annotatedElement the annotated element
    * @return error messages.

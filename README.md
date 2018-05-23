@@ -2,12 +2,12 @@
 [![Build Status](https://travis-ci.org/XDean/Deannotation-checker.svg?branch=master)](https://travis-ci.org/XDean/Deannotation-checker)
 [![codecov.io](http://codecov.io/github/XDean/deannotation-checker/coverage.svg?branch=master)](https://codecov.io/gh/XDean/deannotation-checker/branch/master)
 
-Dean Checker Framework
+Dean Annotation Checker Framework
 
-Get the error in advance at compile period!
+Get the annotation usage error in advance at compile period!
 
 - [Get Start](#get-start)
-- [Sample](#sample-usage)
+- [Samples](#samples)
 - [Features](#features)
   - [`@CheckType`](#checktype)
   - [`@CheckAnnotation`](#checkannotation)
@@ -32,7 +32,7 @@ Get the error in advance at compile period!
 
 and you may need to read [Use Meta Annotation](https://github.com/XDean/AnnotationProcessorToolkit/blob/master/doc/Meta.md#use-meta-annotation) to understand how to use meta-annotation.
 
-# Sample Usage
+# Samples
 
 ```java
 @CheckMethod(argCount = 0, returnType = @CheckType(void.class))
@@ -51,6 +51,10 @@ public void func(int i) { // this line will give compile error '[5,15] Must only
 ## eclipse snapshot
 
 ![AssertMethodEclipse.jpg](doc/image/AssertMethodEclipse.jpg)
+
+## applications
+
+- [JUnit-checker](https://github.com/XDean/junit-checker)
 
 # Features
   
