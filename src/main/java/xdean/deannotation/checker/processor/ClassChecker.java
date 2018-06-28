@@ -10,13 +10,10 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
 
 import com.google.auto.service.AutoService;
 
 import xdean.annotation.processor.toolkit.AssertException;
-import xdean.annotation.processor.toolkit.ElementUtil;
-import xdean.annotation.processor.toolkit.TypeUtil;
 import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
 import xdean.deannotation.checker.CheckClass;
 import xdean.deannotation.checker.processor.common.Checker;
@@ -26,6 +23,9 @@ import xdean.deannotation.checker.processor.common.CheckerInject;
 @SupportedMetaAnnotation(CheckClass.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class ClassChecker extends Checker<CheckClass> {
+
+  @CheckerInject
+  TypeChecker typeChecker;
 
   @CheckerInject
   AnnotationChecker annotationChecker;
@@ -38,12 +38,7 @@ public class ClassChecker extends Checker<CheckClass> {
     assertThat(element instanceof TypeElement).doNoThing();
     annotationChecker.process(env, cc.annotation(), mid, element);
     modifierChecker.process(env, cc.modifier(), mid, element);
-    TypeMirror type = TypeUtil.erasure(types, element.asType());
-    ElementUtil.getAnnotationClassArray(elements, cc, c -> c.implement())
-        .forEach(tm -> {
-          TypeMirror target = TypeUtil.erasure(types, tm);
-          assertThat(types.isAssignable(type, target)).log("Must implements: " + tm.toString(), element);
-        });
+    typeChecker.process(env, cc.type(), mid, element);
   }
 
   @Override

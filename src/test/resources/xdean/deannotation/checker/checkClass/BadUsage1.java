@@ -1,10 +1,11 @@
 package xdean.deannotation.checker.checkClass;
 
 import xdean.deannotation.checker.CheckClass;
+import xdean.deannotation.checker.CheckType;
 
 public class BadUsage1 {
 
-  @CheckClass(implement = String.class)
+  @CheckClass(type = @CheckType(String.class))
   public @interface Anno {
   }
 

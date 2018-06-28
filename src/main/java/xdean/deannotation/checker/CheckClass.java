@@ -20,10 +20,9 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 @Target(ANNOTATION_TYPE)
 public @interface CheckClass {
   /**
-   * Required superclass/interface. Error happens when the target class can't assign to one of the
-   * class.
+   * Check the class
    */
-  Class<?>[] implement() default {};
+  CheckType type() default @CheckType;
 
   /**
    * Check the class's modifier.
