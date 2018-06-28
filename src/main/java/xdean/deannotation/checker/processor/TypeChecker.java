@@ -82,11 +82,11 @@ public class TypeChecker extends Checker<CheckType> {
       assertThat(types.isSameType(type, target)).log(name + " must be " + target.toString(), element);
       break;
     case SUPER:
-      assertThat(types.isAssignable(target, type)).log(name + "must super " + target.toString(), element);
+      assertThat(types.isAssignable(target, type)).log(name + " must super " + target.toString(), element);
       break;
     case EXTEND_ALL:
       baseTypes.forEach(eachTarget -> handleAssert(
-          () -> assertThat(types.isAssignable(type, eachTarget)).log(name + "must extend " + eachTarget.toString(), element)));
+          () -> assertThat(types.isAssignable(type, eachTarget)).log(name + " must extend " + eachTarget.toString(), element)));
       break;
     case EXTEND_ONE:
       assertThat(baseTypes.stream().anyMatch(eachTarget -> types.isAssignable(type, eachTarget)))
