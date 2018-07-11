@@ -9,7 +9,6 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
@@ -23,6 +22,8 @@ import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
 import xdean.deannotation.checker.CheckType;
 import xdean.deannotation.checker.CheckType.Irrelevant;
 import xdean.deannotation.checker.CheckType.Type;
+import xdean.deannotation.checker.processor.common.CheckResult;
+import xdean.deannotation.checker.processor.common.CheckResult.Builder;
 import xdean.deannotation.checker.processor.common.Checker;
 
 @AutoService(Processor.class)
@@ -38,19 +39,6 @@ public class TypeChecker extends Checker<CheckType> {
   }
 
   @Override
-  protected void process(RoundEnvironment env, CheckType ct, AnnotationMirror mid, Element element) throws AssertException {
-    TypeMirror type = element.asType();
-    /*
-     * give package or executable to Types will lead error, see
-     * http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/com/sun/tools/
-     * javac/model/JavacTypes.java#JavacTypes.isAssignable%28javax.lang.model.type.TypeMirror%
-     * 2Cjavax.lang.model.type. TypeMirror%29
-     */
-    assertThat(!(type.getKind() == TypeKind.PACKAGE || type.getKind() == TypeKind.EXECUTABLE)).doNoThing();
-    check(ct, element, type, "Type");
-  }
-
-  @Override
   public List<String> checkDefine(CheckType ct, Element element) {
     List<String> list = new ArrayList<>();
     List<TypeMirror> baseTypes = getBaseTypes(ct);
@@ -62,6 +50,19 @@ public class TypeChecker extends Checker<CheckType> {
     return list;
   }
 
+  @Override
+  public CheckResult check(RoundEnvironment env, CheckType ct, Element element) throws AssertException {
+    TypeMirror type = element.asType();
+    /*
+     * give package or executable to Types will lead error, see
+     * http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/com/sun/tools/
+     * javac/model/JavacTypes.java#JavacTypes.isAssignable%28javax.lang.model.type.TypeMirror%
+     * 2Cjavax.lang.model.type. TypeMirror%29
+     */
+    assertThat(!(type.getKind() == TypeKind.PACKAGE || type.getKind() == TypeKind.EXECUTABLE)).doNoThing();
+    return check(ct, type, "Type");
+  }
+
   /**
    * Check the type on the element with given {@link CheckType}.
    * 
@@ -70,32 +71,34 @@ public class TypeChecker extends Checker<CheckType> {
    * @param typeToCheck the type to check
    * @param name name for this type to log
    */
-  public void check(CheckType ct, Element element, TypeMirror typeToCheck, String name) {
+  public CheckResult check(CheckType ct, TypeMirror typeToCheck, String name) {
     List<TypeMirror> baseTypes = getBaseTypes(ct);
     if (baseTypes.stream().anyMatch(t -> types.isSameType(t, irrelevant))) {
-      return;
+      return CheckResult.EMPTY;
     }
+    Builder builder = CheckResult.Builder.create();
     TypeMirror type = TypeUtil.erasure(types, typeToCheck);
     TypeMirror target = baseTypes.stream().findFirst().get();
     switch (ct.type()) {
     case EQUAL:
-      assertThat(types.isSameType(type, target)).log(name + " must be " + target.toString(), element);
+      builder.addIfNot(types.isSameType(type, target), String.join(" ", name, "must be", target.toString()));
       break;
     case SUPER:
-      assertThat(types.isAssignable(target, type)).log(name + " must super " + target.toString(), element);
+      builder.addIfNot(types.isAssignable(target, type), String.join(" ", name, "must super", target.toString()));
       break;
     case EXTEND_ALL:
-      baseTypes.forEach(eachTarget -> handleAssert(
-          () -> assertThat(types.isAssignable(type, eachTarget)).log(name + " must extend " + eachTarget.toString(), element)));
+      baseTypes.forEach(eachTarget -> builder.addIfNot(types.isAssignable(type, eachTarget),
+          String.join(" ", name, "must extend", eachTarget.toString())));
       break;
     case EXTEND_ONE:
-      assertThat(baseTypes.stream().anyMatch(eachTarget -> types.isAssignable(type, eachTarget)))
-          .log(name + " must extend one of (" + baseTypes.stream().map(tm -> tm.toString()).collect(Collectors.joining(", "))
-              + ")", element);
+      builder.addIfNot(baseTypes.stream().anyMatch(eachTarget -> types.isAssignable(type, eachTarget)),
+          String.join(" ", name, "must extend one of",
+              baseTypes.stream().map(tm -> tm.toString()).collect(Collectors.joining(", "))));
       break;
     default:
       throw new IllegalStateException();
     }
+    return builder.build();
   }
 
   private List<TypeMirror> getBaseTypes(CheckType ct) {

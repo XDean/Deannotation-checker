@@ -8,7 +8,6 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
@@ -20,6 +19,8 @@ import xdean.annotation.processor.toolkit.AssertException;
 import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
 import xdean.deannotation.checker.CheckMethod;
 import xdean.deannotation.checker.CheckParam;
+import xdean.deannotation.checker.processor.common.CheckResult;
+import xdean.deannotation.checker.processor.common.CheckResult.Builder;
 import xdean.deannotation.checker.processor.common.Checker;
 import xdean.deannotation.checker.processor.common.CheckerInject;
 
@@ -41,22 +42,28 @@ public class MethodChecker extends Checker<CheckMethod> {
   ParamChecker paramChecker;
 
   @Override
-  protected void process(RoundEnvironment env, CheckMethod am, AnnotationMirror mid, Element element) throws AssertException {
+  public CheckResult check(RoundEnvironment env, CheckMethod am, Element element) throws AssertException {
     assertThat(element instanceof ExecutableElement).doNoThing();
     assertThat(element.getKind() == ElementKind.METHOD).doNoThing();
+
+    Builder builder = CheckResult.Builder.create();
     ExecutableElement method = (ExecutableElement) element;
-    annotationChecker.process(env, am.annotation(), mid, element);
-    modifierChecker.process(env, am.modifier(), mid, element);
-    typeChecker.check(am.returnType(), element, method.getReturnType(), "Return type");
+    builder.add(annotationChecker.check(env, am.annotation(), element))
+        .add(modifierChecker.check(env, am.modifier(), element))
+        .add(typeChecker.check(am.returnType(), method.getReturnType(), "Return type"));
     List<? extends VariableElement> parameters = method.getParameters();
     CheckParam[] argTypes = am.args();
-    assertThat((am.argCount() < 0 && argTypes.length <= parameters.size()) || am.argCount() == parameters.size())
-        .log("Must only have " + am.argCount() + " arguments.", element);
+    if (am.argCount() < 0) {
+      builder.addIf(argTypes.length > parameters.size(), "Must have at least " + argTypes.length + " arguments");
+    } else {
+      builder.addIfNot(am.argCount() == parameters.size(), "Must only have " + am.argCount() + " arguments.");
+    }
     for (int i = 0; i < argTypes.length; i++) {
       CheckParam res = argTypes[i];
       VariableElement param = parameters.get(i);
-      paramChecker.process(env, res, mid, param);
+      builder.add(paramChecker.check(env, res, param));
     }
+    return builder.build();
   }
 
   @Override

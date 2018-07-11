@@ -7,7 +7,6 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 
@@ -16,6 +15,7 @@ import com.google.auto.service.AutoService;
 import xdean.annotation.processor.toolkit.AssertException;
 import xdean.annotation.processor.toolkit.annotation.SupportedMetaAnnotation;
 import xdean.deannotation.checker.CheckField;
+import xdean.deannotation.checker.processor.common.CheckResult;
 import xdean.deannotation.checker.processor.common.Checker;
 import xdean.deannotation.checker.processor.common.CheckerInject;
 
@@ -34,11 +34,13 @@ public class FieldChecker extends Checker<CheckField> {
   TypeChecker typeChecker;
 
   @Override
-  protected void process(RoundEnvironment env, CheckField cf, AnnotationMirror mid, Element element) throws AssertException {
+  public CheckResult check(RoundEnvironment env, CheckField cf, Element element) throws AssertException {
     assertThat(element.getKind() == ElementKind.FIELD).doNoThing();
-    annotationChecker.process(env, cf.annotation(), mid, element);
-    modifierChecker.process(env, cf.modifier(), mid, element);
-    typeChecker.process(env, cf.type(), mid, element);
+    return CheckResult.Builder.create()
+        .add(annotationChecker.check(env, cf.annotation(), element))
+        .add(modifierChecker.check(env, cf.modifier(), element))
+        .add(typeChecker.check(env, cf.type(), element))
+        .build();
   }
 
   @Override
