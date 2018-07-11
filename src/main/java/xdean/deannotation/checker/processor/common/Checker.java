@@ -20,7 +20,6 @@ public abstract class Checker<T extends Annotation> extends AbstractMetaProcesso
   protected final List<Checker<?>> dependencies;
 
   public Checker() {
-    super();
     dependencies = Arrays.stream(this.getClass().getDeclaredFields())
         .filter(f -> f.isAnnotationPresent(CheckerInject.class))
         .map(f -> {

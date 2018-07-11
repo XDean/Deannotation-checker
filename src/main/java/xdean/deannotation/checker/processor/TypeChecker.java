@@ -64,10 +64,9 @@ public class TypeChecker extends Checker<CheckType> {
   }
 
   /**
-   * Check the type on the element with given {@link CheckType}.
+   * Check the type with given {@link CheckType}.
    * 
    * @param ct the annotation
-   * @param element the annotated element
    * @param typeToCheck the type to check
    * @param name name for this type to log
    */

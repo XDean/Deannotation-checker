@@ -56,7 +56,7 @@ public class MethodChecker extends Checker<CheckMethod> {
     if (am.argCount() < 0) {
       builder.addIf(argTypes.length > parameters.size(), "Must have at least " + argTypes.length + " arguments");
     } else {
-      builder.addIfNot(am.argCount() == parameters.size(), "Must only have " + am.argCount() + " arguments.");
+      builder.addIfNot(am.argCount() == parameters.size(), "Must only have " + am.argCount() + " arguments");
     }
     for (int i = 0; i < argTypes.length; i++) {
       CheckParam res = argTypes[i];
@@ -70,7 +70,7 @@ public class MethodChecker extends Checker<CheckMethod> {
   public List<String> checkDefine(CheckMethod t, Element annotatedElement) {
     List<String> list = new ArrayList<>();
     if (t.argCount() >= 0 && t.argCount() < t.args().length) {
-      list.add("argCount must not greater than argTypes length");
+      list.add("argCount must not smaller than argTypes length");
     }
     list.addAll(attributeBadDefine(annotationChecker.checkDefine(t.annotation(), annotatedElement), "annotation"));
     list.addAll(attributeBadDefine(modifierChecker.checkDefine(t.modifier(), annotatedElement), "modifier"));
