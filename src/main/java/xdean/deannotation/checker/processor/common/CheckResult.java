@@ -44,7 +44,7 @@ public class CheckResult {
     }
 
     public Builder add(CheckResult other) {
-      other.errors.forEach((element, errors) -> this.errors.computeIfAbsent(element, e -> new ArrayList<>()).addAll(errors));
+      other.errors.forEach((element, error) -> this.errors.computeIfAbsent(element, e -> new ArrayList<>()).addAll(error));
       return this;
     }
 

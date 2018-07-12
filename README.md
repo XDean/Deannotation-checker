@@ -1,6 +1,7 @@
 # Deannotation Checker
 [![Build Status](https://travis-ci.org/XDean/Deannotation-checker.svg?branch=master)](https://travis-ci.org/XDean/Deannotation-checker)
 [![codecov.io](http://codecov.io/github/XDean/deannotation-checker/coverage.svg?branch=master)](https://codecov.io/gh/XDean/deannotation-checker/branch/master)
+[![sonar](https://sonarcloud.io/api/project_badges/measure?project=com.github.XDean%3Adeannotation-checker&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.github.XDean%3Adeannotation-checker)
 
 Dean Annotation Checker Framework
 

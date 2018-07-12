@@ -78,7 +78,7 @@ public class TypeChecker extends Checker<CheckType> {
     }
     Builder builder = CheckResult.Builder.create(element);
     TypeMirror type = TypeUtil.erasure(types, typeToCheck);
-    TypeMirror target = baseTypes.stream().findFirst().get();
+    TypeMirror target = baseTypes.stream().findFirst().orElse(type);
     switch (ct.type()) {
     case EQUAL:
       builder.addIfNot(types.isSameType(type, target), String.join(" ", name, "must be", target.toString()));
