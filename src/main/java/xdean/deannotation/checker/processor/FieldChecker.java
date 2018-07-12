@@ -36,7 +36,7 @@ public class FieldChecker extends Checker<CheckField> {
   @Override
   public CheckResult check(RoundEnvironment env, CheckField cf, Element element) throws AssertException {
     assertThat(element.getKind() == ElementKind.FIELD).doNoThing();
-    return CheckResult.Builder.create()
+    return CheckResult.Builder.create(element)
         .add(annotationChecker.check(env, cf.annotation(), element))
         .add(modifierChecker.check(env, cf.modifier(), element))
         .add(typeChecker.check(env, cf.type(), element))

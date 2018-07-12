@@ -36,7 +36,7 @@ public class ClassChecker extends Checker<CheckClass> {
   @Override
   public CheckResult check(RoundEnvironment env, CheckClass cc, Element element) throws AssertException {
     assertThat(element instanceof TypeElement).doNoThing();
-    return CheckResult.Builder.create()
+    return CheckResult.Builder.create(element)
         .add(annotationChecker.check(env, cc.annotation(), element))
         .add(modifierChecker.check(env, cc.modifier(), element))
         .add(typeChecker.check(env, cc.type(), element))

@@ -26,7 +26,7 @@ public class ModifierChecker extends Checker<CheckModifier> {
 
   @Override
   public CheckResult check(RoundEnvironment env, CheckModifier cm, Element element) throws AssertException {
-    Builder builder = CheckResult.Builder.create();
+    Builder builder = CheckResult.Builder.create(element);
     Set<Modifier> modifiers = element.getModifiers();
     Arrays.stream(cm.require())
         .forEach(m -> builder.addIf(!modifiers.contains(m), "Modifier required: " + m));

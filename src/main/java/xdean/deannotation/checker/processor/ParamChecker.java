@@ -33,7 +33,7 @@ public class ParamChecker extends Checker<CheckParam> {
   @Override
   public CheckResult check(RoundEnvironment env, CheckParam cp, Element element) throws AssertException {
     assertThat(element.getKind() == ElementKind.PARAMETER).doNoThing();
-    return CheckResult.Builder.create()
+    return CheckResult.Builder.create(element)
         .add(annotationChecker.check(env, cp.annotation(), element))
         .add(typeChecker.check(env, cp.type(), element))
         .build();

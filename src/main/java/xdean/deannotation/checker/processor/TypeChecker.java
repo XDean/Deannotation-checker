@@ -60,22 +60,23 @@ public class TypeChecker extends Checker<CheckType> {
      * 2Cjavax.lang.model.type. TypeMirror%29
      */
     assertThat(!(type.getKind() == TypeKind.PACKAGE || type.getKind() == TypeKind.EXECUTABLE)).doNoThing();
-    return check(ct, type, "Type");
+    return check(element, ct, type, "Type");
   }
 
   /**
-   * Check the type with given {@link CheckType}.
+   * Check the type on the element with given {@link CheckType}.
    * 
    * @param ct the annotation
+   * @param element the annotated element
    * @param typeToCheck the type to check
    * @param name name for this type to log
    */
-  public CheckResult check(CheckType ct, TypeMirror typeToCheck, String name) {
+  public CheckResult check(Element element, CheckType ct, TypeMirror typeToCheck, String name) {
     List<TypeMirror> baseTypes = getBaseTypes(ct);
     if (baseTypes.stream().anyMatch(t -> types.isSameType(t, irrelevant))) {
       return CheckResult.EMPTY;
     }
-    Builder builder = CheckResult.Builder.create();
+    Builder builder = CheckResult.Builder.create(element);
     TypeMirror type = TypeUtil.erasure(types, typeToCheck);
     TypeMirror target = baseTypes.stream().findFirst().get();
     switch (ct.type()) {

@@ -46,11 +46,11 @@ public class MethodChecker extends Checker<CheckMethod> {
     assertThat(element instanceof ExecutableElement).doNoThing();
     assertThat(element.getKind() == ElementKind.METHOD).doNoThing();
 
-    Builder builder = CheckResult.Builder.create();
+    Builder builder = CheckResult.Builder.create(element);
     ExecutableElement method = (ExecutableElement) element;
     builder.add(annotationChecker.check(env, am.annotation(), element))
         .add(modifierChecker.check(env, am.modifier(), element))
-        .add(typeChecker.check(am.returnType(), method.getReturnType(), "Return type"));
+        .add(typeChecker.check(element, am.returnType(), method.getReturnType(), "Return type"));
     List<? extends VariableElement> parameters = method.getParameters();
     CheckParam[] argTypes = am.args();
     if (am.argCount() < 0) {

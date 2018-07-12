@@ -50,8 +50,8 @@ public abstract class Checker<T extends Annotation> extends AbstractMetaProcesso
 
   @Override
   protected final void process(RoundEnvironment env, T t, AnnotationMirror mid, Element element) throws AssertException {
-    CheckResult result = check(env, t, element);
-    assertThat(result.isPass()).log(result.getMessage(), element);
+    check(env, t, element).errors
+        .forEach((e, errors) -> error().log(errors.stream().collect(Collectors.joining("\n")), e));
   }
 
   public abstract CheckResult check(RoundEnvironment env, T t, Element element) throws AssertException;

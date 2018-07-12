@@ -23,7 +23,7 @@ public class AnnotationChecker extends Checker<CheckAnnotation> {
 
   @Override
   public CheckResult check(RoundEnvironment env, CheckAnnotation ca, Element element) throws AssertException {
-    Builder builder = CheckResult.Builder.create();
+    Builder builder = CheckResult.Builder.create(element);
     ElementUtil.getAnnotationClassArray(elements, ca, CheckAnnotation::require)
         .forEach(m -> builder.addIf(!ElementUtil.getAnnotationMirror(element, m).isPresent(), "Annotation required: " + m));
     ElementUtil.getAnnotationClassArray(elements, ca, CheckAnnotation::forbid)

@@ -2,47 +2,55 @@ package xdean.deannotation.checker.processor.common;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+
+import javax.lang.model.element.Element;
 
 public class CheckResult {
 
-  public static final CheckResult EMPTY = new CheckResult(Collections.emptyList());
+  public static final CheckResult EMPTY = new CheckResult(Collections.emptyMap());
 
-  public final List<String> errors;
+  public final Map<Element, List<String>> errors;
 
-  public CheckResult(List<String> errors) {
-    this.errors = Collections.unmodifiableList(errors);
+  public CheckResult(Map<Element, List<String>> errors) {
+    this.errors = Collections.unmodifiableMap(errors);
   }
 
   public boolean isPass() {
     return errors.isEmpty();
   }
 
-  public String getMessage() {
-    return errors.stream().collect(Collectors.joining("\n"));
-  }
-
   public static class Builder {
-    private final List<String> errors = new ArrayList<>();
+    private final Element root;
+    private final Map<Element, List<String>> errors = new LinkedHashMap<>();
 
-    public static Builder create() {
-      return new Builder();
+    public static Builder create(Element root) {
+      return new Builder(root);
     }
 
-    public Builder add(String error) {
-      errors.add(error);
+    private Builder(Element root) {
+      this.root = root;
+    }
+
+    public Builder add(Element element, String error) {
+      errors.computeIfAbsent(element, e -> new ArrayList<>()).add(error);
       return this;
     }
 
+    public Builder add(String error) {
+      return add(root, error);
+    }
+
     public Builder add(CheckResult other) {
-      errors.addAll(other.errors);
+      other.errors.forEach((element, errors) -> this.errors.computeIfAbsent(element, e -> new ArrayList<>()).addAll(errors));
       return this;
     }
 
     public Builder addIf(boolean b, String error) {
       if (b) {
-        errors.add(error);
+        add(error);
       }
       return this;
     }
