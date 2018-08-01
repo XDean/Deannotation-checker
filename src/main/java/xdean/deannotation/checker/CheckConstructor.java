@@ -18,7 +18,7 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 @Documented
 @Retention(CLASS)
 @Target(ANNOTATION_TYPE)
-public @interface CheckMethod {
+public @interface CheckConstructor {
 
   /**
    * Check the method's annotation.
@@ -29,11 +29,6 @@ public @interface CheckMethod {
    * Check the method's modifier.
    */
   CheckModifier modifier() default @CheckModifier;
-
-  /**
-   * Check the method's return type.
-   */
-  CheckType returnType() default @CheckType;
 
   /**
    * If it's nonnegative, check the method's parameter count.
