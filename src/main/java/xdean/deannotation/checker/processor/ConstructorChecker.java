@@ -54,7 +54,7 @@ public class ConstructorChecker extends Checker<CheckConstructor> {
     } else {
       builder.addIfNot(cc.argCount() == parameters.size(), "Must only have " + cc.argCount() + " arguments");
     }
-    for (int i = 0; i < argTypes.length; i++) {
+    for (int i = 0; i < argTypes.length && i < parameters.size(); i++) {
       CheckParam res = argTypes[i];
       VariableElement param = parameters.get(i);
       builder.add(paramChecker.check(env, res, param));

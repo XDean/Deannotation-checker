@@ -4,6 +4,8 @@ import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import javax.annotation.processing.ProcessingEnvironment;
@@ -69,5 +71,16 @@ public abstract class Checker<T extends Annotation> extends AbstractMetaProcesso
 
   public static List<String> attributeBadDefine(List<String> errors, String attribute) {
     return errors.stream().map(s -> "Attribute '" + attribute + "': " + s).collect(Collectors.toList());
+  }
+
+  protected <K> Optional<K> handleAssert(Supplier<K> task) {
+    try {
+      return Optional.of(task.get());
+    } catch (AssertException e) {
+      if (e.getMessage() != null && !e.getMessage().isEmpty()) {
+        error().log(e.getMessage());
+      }
+      return Optional.empty();
+    }
   }
 }
