@@ -20,6 +20,11 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 @Target(ANNOTATION_TYPE)
 public @interface CheckClass {
   /**
+   * Check the class's name
+   */
+  CheckName name() default @CheckName;
+
+  /**
    * Check the class
    */
   CheckType type() default @CheckType;

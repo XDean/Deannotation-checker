@@ -24,19 +24,16 @@ import xdean.deannotation.checker.processor.common.CheckerInject;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class ClassChecker extends Checker<CheckClass> {
 
-  @CheckerInject
-  TypeChecker typeChecker;
-
-  @CheckerInject
-  AnnotationChecker annotationChecker;
-
-  @CheckerInject
-  ModifierChecker modifierChecker;
+  private @CheckerInject NameChecker nameChecker;
+  private @CheckerInject TypeChecker typeChecker;
+  private @CheckerInject AnnotationChecker annotationChecker;
+  private @CheckerInject ModifierChecker modifierChecker;
 
   @Override
   public CheckResult check(RoundEnvironment env, CheckClass cc, Element element) throws AssertException {
     assertThat(element instanceof TypeElement).doNoThing();
     return CheckResult.Builder.create(element)
+        .add(nameChecker.check(env, cc.name(), element))
         .add(annotationChecker.check(env, cc.annotation(), element))
         .add(modifierChecker.check(env, cc.modifier(), element))
         .add(typeChecker.check(env, cc.type(), element))
@@ -46,8 +43,10 @@ public class ClassChecker extends Checker<CheckClass> {
   @Override
   public List<String> checkDefine(CheckClass t, Element annotatedElement) {
     List<String> list = new ArrayList<>();
+    list.addAll(attributeBadDefine(nameChecker.checkDefine(t.name(), annotatedElement), "name"));
     list.addAll(attributeBadDefine(annotationChecker.checkDefine(t.annotation(), annotatedElement), "annotation"));
     list.addAll(attributeBadDefine(modifierChecker.checkDefine(t.modifier(), annotatedElement), "modifier"));
+    list.addAll(attributeBadDefine(typeChecker.checkDefine(t.type(), annotatedElement), "type"));
     return list;
   }
 }

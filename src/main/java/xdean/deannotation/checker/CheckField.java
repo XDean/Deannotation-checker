@@ -20,6 +20,11 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 @Target(ANNOTATION_TYPE)
 public @interface CheckField {
   /**
+   * Check the field's name
+   */
+  CheckName name() default @CheckName;
+
+  /**
    * Check the field's annotation.
    */
   CheckAnnotation annotation() default @CheckAnnotation;

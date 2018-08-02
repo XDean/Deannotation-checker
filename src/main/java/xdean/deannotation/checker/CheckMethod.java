@@ -19,6 +19,10 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 @Retention(CLASS)
 @Target(ANNOTATION_TYPE)
 public @interface CheckMethod {
+  /**
+   * Check the method's name
+   */
+  CheckName name() default @CheckName;
 
   /**
    * Check the method's annotation.

@@ -24,19 +24,16 @@ import xdean.deannotation.checker.processor.common.CheckerInject;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class FieldChecker extends Checker<CheckField> {
 
-  @CheckerInject
-  AnnotationChecker annotationChecker;
-
-  @CheckerInject
-  ModifierChecker modifierChecker;
-
-  @CheckerInject
-  TypeChecker typeChecker;
+  private @CheckerInject NameChecker nameChecker;
+  private @CheckerInject AnnotationChecker annotationChecker;
+  private @CheckerInject ModifierChecker modifierChecker;
+  private @CheckerInject TypeChecker typeChecker;
 
   @Override
   public CheckResult check(RoundEnvironment env, CheckField cf, Element element) throws AssertException {
     assertThat(element.getKind() == ElementKind.FIELD).doNoThing();
     return CheckResult.Builder.create(element)
+        .add(nameChecker.check(env, cf.name(), element))
         .add(annotationChecker.check(env, cf.annotation(), element))
         .add(modifierChecker.check(env, cf.modifier(), element))
         .add(typeChecker.check(env, cf.type(), element))
@@ -46,6 +43,7 @@ public class FieldChecker extends Checker<CheckField> {
   @Override
   public List<String> checkDefine(CheckField t, Element annotatedElement) {
     List<String> list = new ArrayList<>();
+    list.addAll(attributeBadDefine(nameChecker.checkDefine(t.name(), annotatedElement), "name"));
     list.addAll(attributeBadDefine(annotationChecker.checkDefine(t.annotation(), annotatedElement), "annotation"));
     list.addAll(attributeBadDefine(modifierChecker.checkDefine(t.modifier(), annotatedElement), "modifier"));
     list.addAll(attributeBadDefine(typeChecker.checkDefine(t.type(), annotatedElement), "type"));

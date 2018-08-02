@@ -29,34 +29,30 @@ import xdean.deannotation.checker.processor.common.CheckerInject;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class MethodChecker extends Checker<CheckMethod> {
 
-  @CheckerInject
-  AnnotationChecker annotationChecker;
-
-  @CheckerInject
-  ModifierChecker modifierChecker;
-
-  @CheckerInject
-  TypeChecker typeChecker;
-
-  @CheckerInject
-  ParamChecker paramChecker;
+  private @CheckerInject NameChecker nameChecker;
+  private @CheckerInject AnnotationChecker annotationChecker;
+  private @CheckerInject ModifierChecker modifierChecker;
+  private @CheckerInject TypeChecker typeChecker;
+  private @CheckerInject ParamChecker paramChecker;
 
   @Override
-  public CheckResult check(RoundEnvironment env, CheckMethod am, Element element) throws AssertException {
+  public CheckResult check(RoundEnvironment env, CheckMethod cm, Element element) throws AssertException {
     assertThat(element instanceof ExecutableElement).doNoThing();
     assertThat(element.getKind() == ElementKind.METHOD).doNoThing();
 
     Builder builder = CheckResult.Builder.create(element);
     ExecutableElement method = (ExecutableElement) element;
-    builder.add(annotationChecker.check(env, am.annotation(), element))
-        .add(modifierChecker.check(env, am.modifier(), element))
-        .add(typeChecker.check(element, am.returnType(), method.getReturnType(), "Return type"));
+    builder
+        .add(nameChecker.check(env, cm.name(), element))
+        .add(annotationChecker.check(env, cm.annotation(), element))
+        .add(modifierChecker.check(env, cm.modifier(), element))
+        .add(typeChecker.check(element, cm.returnType(), method.getReturnType(), "Return type"));
     List<? extends VariableElement> parameters = method.getParameters();
-    CheckParam[] argTypes = am.args();
-    if (am.argCount() < 0) {
+    CheckParam[] argTypes = cm.args();
+    if (cm.argCount() < 0) {
       builder.addIf(argTypes.length > parameters.size(), "Must have at least " + argTypes.length + " arguments");
     } else {
-      builder.addIfNot(am.argCount() == parameters.size(), "Must only have " + am.argCount() + " arguments");
+      builder.addIfNot(cm.argCount() == parameters.size(), "Must only have " + cm.argCount() + " arguments");
     }
     for (int i = 0; i < argTypes.length; i++) {
       CheckParam res = argTypes[i];
@@ -72,6 +68,7 @@ public class MethodChecker extends Checker<CheckMethod> {
     if (t.argCount() >= 0 && t.argCount() < t.args().length) {
       list.add("argCount must not smaller than argTypes length");
     }
+    list.addAll(attributeBadDefine(nameChecker.checkDefine(t.name(), annotatedElement), "name"));
     list.addAll(attributeBadDefine(annotationChecker.checkDefine(t.annotation(), annotatedElement), "annotation"));
     list.addAll(attributeBadDefine(modifierChecker.checkDefine(t.modifier(), annotatedElement), "modifier"));
     list.addAll(attributeBadDefine(typeChecker.checkDefine(t.returnType(), annotatedElement), "returnType"));

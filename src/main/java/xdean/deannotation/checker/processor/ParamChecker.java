@@ -24,16 +24,15 @@ import xdean.deannotation.checker.processor.common.CheckerInject;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class ParamChecker extends Checker<CheckParam> {
 
-  @CheckerInject
-  AnnotationChecker annotationChecker;
-
-  @CheckerInject
-  TypeChecker typeChecker;
+  private @CheckerInject NameChecker nameChecker;
+  private @CheckerInject AnnotationChecker annotationChecker;
+  private @CheckerInject TypeChecker typeChecker;
 
   @Override
   public CheckResult check(RoundEnvironment env, CheckParam cp, Element element) throws AssertException {
     assertThat(element.getKind() == ElementKind.PARAMETER).doNoThing();
     return CheckResult.Builder.create(element)
+        .add(nameChecker.check(env, cp.name(), element))
         .add(annotationChecker.check(env, cp.annotation(), element))
         .add(typeChecker.check(env, cp.type(), element))
         .build();
@@ -42,6 +41,7 @@ public class ParamChecker extends Checker<CheckParam> {
   @Override
   public List<String> checkDefine(CheckParam t, Element annotatedElement) {
     List<String> list = new ArrayList<>();
+    list.addAll(attributeBadDefine(nameChecker.checkDefine(t.name(), annotatedElement), "name"));
     list.addAll(attributeBadDefine(annotationChecker.checkDefine(t.annotation(), annotatedElement), "annotation"));
     list.addAll(attributeBadDefine(typeChecker.checkDefine(t.type(), annotatedElement), "type"));
     return list;
