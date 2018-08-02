@@ -11,6 +11,7 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
@@ -42,6 +43,8 @@ public class EncloseChecker extends Checker<CheckEnclose> {
 
   @Override
   public CheckResult check(RoundEnvironment env, CheckEnclose ce, Element element) throws AssertException {
+    assertThat(element instanceof TypeElement || element.getKind() == ElementKind.PACKAGE).doNoThing();
+
     boolean allMatch = ce.type() == Type.ALL;
     AtomicBoolean pass = new AtomicBoolean(allMatch);
     List<String> elementStrings = new ArrayList<>();
