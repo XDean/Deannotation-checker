@@ -42,7 +42,7 @@ public class TypeChecker extends Checker<CheckType> {
   public List<String> checkDefine(CheckType ct, Element element) {
     List<String> list = new ArrayList<>();
     List<TypeMirror> baseTypes = getBaseTypes(ct);
-    if (baseTypes.size() == 0) {
+    if (baseTypes.isEmpty()) {
       list.add("@CheckType must define target type");
     } else if (baseTypes.size() != 1 && (ct.type() == Type.EQUAL || ct.type() == Type.SUPER)) {
       list.add("@CheckType with type EQUAL or SUPER can only define one target type");
@@ -93,7 +93,7 @@ public class TypeChecker extends Checker<CheckType> {
     case EXTEND_ONE:
       builder.addIfNot(baseTypes.stream().anyMatch(eachTarget -> types.isAssignable(type, eachTarget)),
           String.join(" ", name, "must extend one of",
-              baseTypes.stream().map(tm -> tm.toString()).collect(Collectors.joining(", "))));
+              baseTypes.stream().map(TypeMirror::toString).collect(Collectors.joining(", "))));
       break;
     default:
       throw new IllegalStateException();
@@ -102,7 +102,7 @@ public class TypeChecker extends Checker<CheckType> {
   }
 
   private List<TypeMirror> getBaseTypes(CheckType ct) {
-    return ElementUtil.getAnnotationClassArray(elements, ct, r -> r.value())
+    return ElementUtil.getAnnotationClassArray(elements, ct, CheckType::value)
         .stream()
         .map(tm -> TypeUtil.erasure(types, tm))
         .collect(Collectors.toList());
