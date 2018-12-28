@@ -9,12 +9,11 @@ jdk:
 install: true
 jobs:
   include:
-  - stage: clean
-    script: mvn clean
-  - stage: compile and test
-    script: mvn package -P jacoco
-  - stage: quality
-    script: mvn sonar:sonar
+  - stage: build
+    name: quick build
+    script: mvn clean package -U
+  - name: quality build
+    script: mvn clean package sonar:sonar -P jacoco -U
   - stage: deploy
     script:
     - openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in $DEPLOY_DIR/pubring.gpg.enc -out $DEPLOY_DIR/pubring.gpg -d
