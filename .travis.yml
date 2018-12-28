@@ -13,20 +13,20 @@ jobs:
     script: mvn clean
   - stage: compile and test
     script: mvn package -P jacoco
-  - stage: deploy
-    script:
-    - openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in $deploy_dir/pubring.gpg.enc -out $deploy_dir/pubring.gpg -d
-    - openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in $deploy_dir/secring.gpg.enc -out $deploy_dir/secring.gpg -d
-    - mvn deploy -P release -s $deploy_dir/settings.xml
-    if: branch = master
   - stage: quality
     script: mvn sonar:sonar
+  - stage: deploy
+    script:
+    - openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in $DEPLOY_DIR/pubring.gpg.enc -out $DEPLOY_DIR/pubring.gpg -d
+    - openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in $DEPLOY_DIR/secring.gpg.enc -out $DEPLOY_DIR/secring.gpg -d
+    - mvn deploy -P release -s $DEPLOY_DIR/settings.xml
+    if: branch = master
 addons:
   sonarcloud:
     organization: xdean-github
 env:
   global:
-  - deploy_dir="`pwd`/deploy"
+  - DEPLOY_DIR="`pwd`/deploy"
   - secure: iBpcRRN7haVZH39ytcVeXNoTe6ufuAD17oW+x/odBiE9rKWay5IYTsMkWQ0mIgBdBzBkcJKZRIjy97RZPvRFTyNMSNY0tSJXW+xwvwMebf8NF581V0bVjNY6fPu3ga78OIeGlklMtsUdM8z5xclu1DAZrgKXY0rI0BUjXr0xfMyesYreEEG4r2L1OTIhOIdQgNmdJrQjkZV6hrlfcWIo/kRl9cXRRGMX5gXjToItQvUKRrM86rwv4v238CnRNyDKPoXNLHTaoaUr8w95JgtBnXyvo8xLU3OJLF0k3b8XjJrdSzxyWDFOrfVg06uzx78gC12gtVVayMIu7DP0yxjMoPeD3uKQ/ECxFhAYEum1ZNCRWsBHtI6xsPik8KyI96OSHP3PVAvpkaTwoebNJ710UEPHsqkMvvEqozVHvlo0gOEE8qXNuwCEtFR94Z3r2zqtl2MD1itSwxCS/KEexECN0L4O6+xs53MMe533pNnsRYrfQu6x1+5/RJgCKcrab7xGYJfqrWuwPCq4ZuVGaG1XaJzvpE5FB3rnnYLNJBWvqxUzzh++HLC50mxsyxOzmeZHZpAT4rwgdwijlVT0/R2NQj0IOfwkHUImWihAyqyAtmXhljPt+E8Atbnbz4G+sRltXHNE3pcBYx93d8ZooijTDYcPCnqzL7ptOpRRavFOcHk=
   - secure: kXlzKi8wuX+Wa0HsLYiDrOnCRaLLjPEWMKpKjS65FS4dDlXh9XsH125VJ/wqayjTM/YPbcex5O17fj3phi1CxINnoBgHTF3dajwslkoJw24PqhqRzBWKrs/vfAeKZO7MfAwXgPDGT034LI/4ogFJqw+463klZ3WnOP/BTzNF7KrU3cp/c14O3QtUdF2lOAgtcM0nt4NasXWr4z8BCZp6Mh9n2GB6qEOlR+Nvqbp/6eRTiEQoi2daueEaaFdrsKwKqyl8sR7VN8kz3fzYLKyEShDE97GVF6fhaDnKHScmmCA7ZMVsDIosquCIOlC7BJ+0xgQEu/c4sWaJuMvH20H9z1yNUFw5zqfK6p6Kg2cURfpoQ9o1hcmoNKu/WFVaO+2zE9CGh+oLc+wGggdqarIWJ0RcwePJqa8ro5YJYIGE6Q+hu9aaZ4BMYc2Qqe/SXdXFf/A1Yuk8VDERFuKFCT5CVBnnrBzC5M93EE4Af4yCS2aPlnuv8Vyair053lGni1n65kbOCDoGfp0JxQdVc0JGoxkDk7/cuhNZc6hHOYNGJl0kal23gt3J4ykVRjAgQ6Ddoc5mMPem3nzQPIYdiTW0vxZFQDgs+SwF5VWVThraaMmIcyax+N2lQkPuIJ94GyYLEdz3bs3r8GMM3C9svL/DHZ9SxmfjsxrFmjgPELo01mg=
   - secure: Uc4B6ANplelEE2mPJld6mzOup0dcr07qy62qSycnY5VhxXU2Dlh93uXSgpchGFlP+GrWkPxGlj2+EP1VStu1LYkKvgP7IBMeQ3bD2ZK2t3Glv2RDFPlDlZmFjO9/udXiA0dE++RCg7wNoeoS1HAB1deUDUReMQcQdh5SOjbx28C4ocn6ACgAgbOaAgtaLx2eVBhSyR3yvDQ/fsdl/4MAwrh77rc6Mb3ZWyYoK1dd42t8lQb0FOvx3RSeKgJZo2YUEcs2OhZemL6x+/B/Y0k0omeRtEI5f5Pz6XhAk8Zi5PRK2C9n00xYrhCI+Xlb7FwibxEVw91B3cNNKJu1Jt1EiKeksckDaLZTRzAcbmRag5XCv3K3Vh+Nv7JmhZMOA2hQL85U6YfLYW561MDk7vVQoOHDdzPeKNM/tJRctijX6p+XbtHKd20gc5YN2a0QyjUqLygkLqs2nyT6Z3KNY3DSiyzehkTjTO+xoUx2Il4Yqzdt4OQli6mLjlIBWivjRASvKs/g/zRRhlTG+fbi44vKOy45SKul8hJjRuMFxc0/2diFjup3V2qGF9aiU1fgoVfOBS8R+dh1hzsgdXYKLfynmRjcOevenEmzFzhR58xRVA/oLds4K1zP27z1/OfBYpMwJv5Z5xQnL6bBy7c6YJOoGEBduzPPsGC7Yn7iAgkDzwo=
