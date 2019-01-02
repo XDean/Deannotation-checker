@@ -90,7 +90,7 @@ public abstract class Checker<T extends Annotation> extends AbstractMetaProcesso
     } else if (mid == null) {
       return error;
     } else {
-      return "Constraint by @" + mid.getAnnotationType().asElement().getSimpleName() + ":" + error;
+      return "Constraint by @" + mid.getAnnotationType().asElement().getSimpleName() + ": " + error;
     }
   }
 }

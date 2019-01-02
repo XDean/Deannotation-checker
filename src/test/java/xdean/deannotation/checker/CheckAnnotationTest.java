@@ -19,13 +19,17 @@ public class CheckAnnotationTest extends CompileTestCase {
       processors = AnnotationChecker.class,
       sources = "checkAnnotation/BadUsage1.java")
   public void testBadUsage1(Compilation c) throws Exception {
-    CompilationSubject.assertThat(c).hadErrorCount(1);
+    CompilationSubject cs = CompilationSubject.assertThat(c);
+    cs.hadErrorCount(1);
+    cs.hadErrorContaining("Constraint by @Anno");
   }
 
   @Compiled(
       processors = AnnotationChecker.class,
       sources = "checkAnnotation/BadUsage2.java")
   public void testBadUsage2(Compilation c) throws Exception {
-    CompilationSubject.assertThat(c).hadErrorCount(1);
+    CompilationSubject cs = CompilationSubject.assertThat(c);
+    cs.hadErrorCount(1);
+    cs.hadErrorContaining("custom");
   }
 }
