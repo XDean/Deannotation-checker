@@ -8,6 +8,7 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
@@ -39,14 +40,14 @@ public class ConstructorChecker extends Checker<CheckConstructor> {
   ParamChecker paramChecker;
 
   @Override
-  public CheckResult check(RoundEnvironment env, CheckConstructor cc, Element element) throws AssertException {
+  public CheckResult check(RoundEnvironment env, CheckConstructor cc, AnnotationMirror mid, Element element) throws AssertException {
     assertThat(element instanceof ExecutableElement).doNoThing();
     assertThat(element.getKind() == ElementKind.CONSTRUCTOR).doNoThing();
 
     Builder builder = CheckResult.Builder.create(element);
     ExecutableElement method = (ExecutableElement) element;
-    builder.add(annotationChecker.check(env, cc.annotation(), element))
-        .add(modifierChecker.check(env, cc.modifier(), element));
+    builder.add(annotationChecker.check(env, cc.annotation(), mid, element))
+        .add(modifierChecker.check(env, cc.modifier(), mid, element));
     List<? extends VariableElement> parameters = method.getParameters();
     CheckParam[] argTypes = cc.args();
     if (cc.argCount() < 0) {
@@ -57,7 +58,7 @@ public class ConstructorChecker extends Checker<CheckConstructor> {
     for (int i = 0; i < argTypes.length && i < parameters.size(); i++) {
       CheckParam res = argTypes[i];
       VariableElement param = parameters.get(i);
-      builder.add(paramChecker.check(env, res, param));
+      builder.add(paramChecker.check(env, res, mid, param));
     }
     return builder.build();
   }

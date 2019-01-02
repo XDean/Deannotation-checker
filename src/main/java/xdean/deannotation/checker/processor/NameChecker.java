@@ -9,6 +9,7 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 
 import com.google.auto.service.AutoService;
@@ -26,7 +27,7 @@ import xdean.deannotation.checker.processor.common.Checker;
 public class NameChecker extends Checker<CheckName> {
 
   @Override
-  public CheckResult check(RoundEnvironment env, CheckName cn, Element element) throws AssertException {
+  public CheckResult check(RoundEnvironment env, CheckName cn, AnnotationMirror mid, Element element) throws AssertException {
     Builder builder = CheckResult.Builder.create(element);
     Pattern p = Pattern.compile(cn.value(), cn.ignoreCase() ? Pattern.CASE_INSENSITIVE : 0);
     builder.addIfNot(p.matcher(element.getSimpleName().toString()).matches(), "Element name must match regex: " + cn.value());

@@ -8,6 +8,7 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
@@ -36,16 +37,16 @@ public class MethodChecker extends Checker<CheckMethod> {
   private @CheckerInject ParamChecker paramChecker;
 
   @Override
-  public CheckResult check(RoundEnvironment env, CheckMethod cm, Element element) throws AssertException {
+  public CheckResult check(RoundEnvironment env, CheckMethod cm, AnnotationMirror mid, Element element) throws AssertException {
     assertThat(element instanceof ExecutableElement).doNoThing();
     assertThat(element.getKind() == ElementKind.METHOD).doNoThing();
 
     Builder builder = CheckResult.Builder.create(element);
     ExecutableElement method = (ExecutableElement) element;
     builder
-        .add(nameChecker.check(env, cm.name(), element))
-        .add(annotationChecker.check(env, cm.annotation(), element))
-        .add(modifierChecker.check(env, cm.modifier(), element))
+        .add(nameChecker.check(env, cm.name(), mid, element))
+        .add(annotationChecker.check(env, cm.annotation(), mid, element))
+        .add(modifierChecker.check(env, cm.modifier(), mid, element))
         .add(typeChecker.check(element, cm.returnType(), method.getReturnType(), "Return type"));
     List<? extends VariableElement> parameters = method.getParameters();
     CheckParam[] argTypes = cm.args();
@@ -57,7 +58,7 @@ public class MethodChecker extends Checker<CheckMethod> {
     for (int i = 0; i < argTypes.length; i++) {
       CheckParam res = argTypes[i];
       VariableElement param = parameters.get(i);
-      builder.add(paramChecker.check(env, res, param));
+      builder.add(paramChecker.check(env, res, mid, param));
     }
     return builder.build();
   }

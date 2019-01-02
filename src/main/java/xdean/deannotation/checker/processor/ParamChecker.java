@@ -7,6 +7,7 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 
@@ -29,12 +30,12 @@ public class ParamChecker extends Checker<CheckParam> {
   private @CheckerInject TypeChecker typeChecker;
 
   @Override
-  public CheckResult check(RoundEnvironment env, CheckParam cp, Element element) throws AssertException {
+  public CheckResult check(RoundEnvironment env, CheckParam cp, AnnotationMirror mid, Element element) throws AssertException {
     assertThat(element.getKind() == ElementKind.PARAMETER).doNoThing();
     return CheckResult.Builder.create(element)
-        .add(nameChecker.check(env, cp.name(), element))
-        .add(annotationChecker.check(env, cp.annotation(), element))
-        .add(typeChecker.check(env, cp.type(), element))
+        .add(nameChecker.check(env, cp.name(), mid, element))
+        .add(annotationChecker.check(env, cp.annotation(), mid, element))
+        .add(typeChecker.check(env, cp.type(), mid, element))
         .build();
   }
 

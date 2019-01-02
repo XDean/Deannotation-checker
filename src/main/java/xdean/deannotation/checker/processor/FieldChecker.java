@@ -7,6 +7,7 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 
@@ -30,13 +31,13 @@ public class FieldChecker extends Checker<CheckField> {
   private @CheckerInject TypeChecker typeChecker;
 
   @Override
-  public CheckResult check(RoundEnvironment env, CheckField cf, Element element) throws AssertException {
+  public CheckResult check(RoundEnvironment env, CheckField cf, AnnotationMirror mid, Element element) throws AssertException {
     assertThat(element.getKind() == ElementKind.FIELD).doNoThing();
     return CheckResult.Builder.create(element)
-        .add(nameChecker.check(env, cf.name(), element))
-        .add(annotationChecker.check(env, cf.annotation(), element))
-        .add(modifierChecker.check(env, cf.modifier(), element))
-        .add(typeChecker.check(env, cf.type(), element))
+        .add(nameChecker.check(env, cf.name(), mid, element))
+        .add(annotationChecker.check(env, cf.annotation(), mid, element))
+        .add(modifierChecker.check(env, cf.modifier(), mid, element))
+        .add(typeChecker.check(env, cf.type(), mid, element))
         .build();
   }
 

@@ -9,6 +9,7 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
@@ -51,7 +52,7 @@ public class TypeChecker extends Checker<CheckType> {
   }
 
   @Override
-  public CheckResult check(RoundEnvironment env, CheckType ct, Element element) throws AssertException {
+  public CheckResult check(RoundEnvironment env, CheckType ct, AnnotationMirror mid, Element element) throws AssertException {
     TypeMirror type = element.asType();
     /*
      * give package or executable to Types will lead error, see

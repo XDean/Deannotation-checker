@@ -10,6 +10,7 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
@@ -42,7 +43,7 @@ public class EncloseChecker extends Checker<CheckEnclose> {
   private @CheckerInject ClassChecker classChecker;
 
   @Override
-  public CheckResult check(RoundEnvironment env, CheckEnclose ce, Element element) throws AssertException {
+  public CheckResult check(RoundEnvironment env, CheckEnclose ce, AnnotationMirror mid, Element element) throws AssertException {
     assertThat(element instanceof TypeElement || element.getKind() == ElementKind.PACKAGE).doNoThing();
 
     boolean allMatch = ce.type() == Type.ALL;
@@ -54,7 +55,7 @@ public class EncloseChecker extends Checker<CheckEnclose> {
     List<VariableElement> fields = ElementFilter.fieldsIn(encloses);
     Arrays.stream(ce.fields()).forEach(cf -> {
       boolean result = fields.stream()
-          .anyMatch(field -> handleAssert(() -> fieldChecker.check(env, cf, field)).map(CheckResult::isPass).orElse(false));
+          .anyMatch(field -> handleAssert(() -> fieldChecker.check(env, cf, mid, field)).map(CheckResult::isPass).orElse(false));
       if (result) {
         if (!allMatch) {
           pass.set(true);
@@ -70,7 +71,7 @@ public class EncloseChecker extends Checker<CheckEnclose> {
     List<ExecutableElement> constructors = ElementFilter.constructorsIn(encloses);
     Arrays.stream(ce.constructors()).forEach(cc -> {
       boolean result = constructors.stream()
-          .anyMatch(constructor -> handleAssert(() -> constructorChecker.check(env, cc, constructor)).map(CheckResult::isPass)
+          .anyMatch(constructor -> handleAssert(() -> constructorChecker.check(env, cc, mid, constructor)).map(CheckResult::isPass)
               .orElse(false));
       if (result) {
         if (!allMatch) {
@@ -87,7 +88,7 @@ public class EncloseChecker extends Checker<CheckEnclose> {
     List<ExecutableElement> methods = ElementFilter.methodsIn(encloses);
     Arrays.stream(ce.methods()).forEach(cm -> {
       boolean result = methods.stream()
-          .anyMatch(method -> handleAssert(() -> methodChecker.check(env, cm, method)).map(CheckResult::isPass)
+          .anyMatch(method -> handleAssert(() -> methodChecker.check(env, cm, mid, method)).map(CheckResult::isPass)
               .orElse(false));
       if (result) {
         if (!allMatch) {
@@ -104,7 +105,7 @@ public class EncloseChecker extends Checker<CheckEnclose> {
     List<TypeElement> classes = ElementFilter.typesIn(encloses);
     Arrays.stream(ce.classes()).forEach(cc -> {
       boolean result = classes.stream()
-          .anyMatch(clz -> handleAssert(() -> classChecker.check(env, cc, clz)).map(CheckResult::isPass)
+          .anyMatch(clz -> handleAssert(() -> classChecker.check(env, cc, mid, clz)).map(CheckResult::isPass)
               .orElse(false));
       if (result) {
         if (!allMatch) {

@@ -4,6 +4,7 @@ import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 
 import com.google.auto.service.AutoService;
@@ -22,7 +23,7 @@ import xdean.deannotation.checker.processor.common.Checker;
 public class AnnotationChecker extends Checker<CheckAnnotation> {
 
   @Override
-  public CheckResult check(RoundEnvironment env, CheckAnnotation ca, Element element) throws AssertException {
+  public CheckResult check(RoundEnvironment env, CheckAnnotation ca, AnnotationMirror mid, Element element) throws AssertException {
     Builder builder = CheckResult.Builder.create(element);
     ElementUtil.getAnnotationClassArray(elements, ca, CheckAnnotation::require)
         .forEach(m -> builder.addIf(!ElementUtil.getAnnotationMirror(element, m).isPresent(), "Annotation required: " + m));
