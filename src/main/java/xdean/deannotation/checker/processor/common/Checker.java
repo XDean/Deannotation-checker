@@ -83,4 +83,14 @@ public abstract class Checker<T extends Annotation> extends AbstractMetaProcesso
       return Optional.empty();
     }
   }
+
+  protected String getMessage(AnnotationMirror mid, String error, String custom) {
+    if (custom != null && !custom.isEmpty()) {
+      return custom;
+    } else if (mid == null) {
+      return error;
+    } else {
+      return "Constraint by @" + mid.getAnnotationType().asElement().getSimpleName() + ":" + error;
+    }
+  }
 }

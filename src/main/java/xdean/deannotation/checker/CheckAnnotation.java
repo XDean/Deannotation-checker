@@ -12,7 +12,7 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 
 /**
  * Check the target element's annotation
- * 
+ *
  * @author Dean Xu (XDean@github.com)
  */
 @Meta
@@ -29,4 +29,9 @@ public @interface CheckAnnotation {
    * Forbidden annotations. Error happens when one of the annotation present.
    */
   Class<? extends Annotation>[] forbid() default {};
+
+  /**
+   * Custom error message of this check
+   */
+  String message() default "";
 }

@@ -23,12 +23,15 @@ import xdean.deannotation.checker.processor.common.Checker;
 public class AnnotationChecker extends Checker<CheckAnnotation> {
 
   @Override
-  public CheckResult check(RoundEnvironment env, CheckAnnotation ca, AnnotationMirror mid, Element element) throws AssertException {
+  public CheckResult check(RoundEnvironment env, CheckAnnotation ca, AnnotationMirror mid, Element element)
+      throws AssertException {
     Builder builder = CheckResult.Builder.create(element);
     ElementUtil.getAnnotationClassArray(elements, ca, CheckAnnotation::require)
-        .forEach(m -> builder.addIf(!ElementUtil.getAnnotationMirror(element, m).isPresent(), "Annotation required: " + m));
+        .forEach(m -> builder.addIf(!ElementUtil.getAnnotationMirror(element, m).isPresent(),
+            getMessage(mid, "Annotation required: " + m, ca.message())));
     ElementUtil.getAnnotationClassArray(elements, ca, CheckAnnotation::forbid)
-        .forEach(m -> builder.addIf(ElementUtil.getAnnotationMirror(element, m).isPresent(), "Annotation forbidden: " + m));
+        .forEach(m -> builder.addIf(ElementUtil.getAnnotationMirror(element, m).isPresent(),
+            getMessage(mid, "Annotation forbidden: " + m, ca.message())));
     return builder.build();
   }
 }
