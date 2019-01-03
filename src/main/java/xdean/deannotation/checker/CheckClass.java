@@ -11,7 +11,7 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 
 /**
  * Check the target class correct defined.
- * 
+ *
  * @author Dean Xu (XDean@github.com)
  */
 @Meta
@@ -38,4 +38,9 @@ public @interface CheckClass {
    * Check the class's annotation
    */
   CheckAnnotation annotation() default @CheckAnnotation;
+
+  /**
+   * Custom error message for this check
+   */
+  String message() default "";
 }

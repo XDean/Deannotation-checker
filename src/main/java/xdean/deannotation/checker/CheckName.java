@@ -17,4 +17,9 @@ public @interface CheckName {
   String value() default ".*";
 
   boolean ignoreCase() default true;
+
+  /**
+   * Custom error message for this check
+   */
+  String message() default "";
 }

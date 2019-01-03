@@ -31,7 +31,7 @@ public @interface CheckAnnotation {
   Class<? extends Annotation>[] forbid() default {};
 
   /**
-   * Custom error message of this check
+   * Custom error message for this check
    */
   String message() default "";
 }

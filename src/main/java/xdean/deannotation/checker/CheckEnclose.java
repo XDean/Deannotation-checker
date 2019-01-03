@@ -11,11 +11,11 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 
 /**
  * Check the element directly enclosed elements.
- * 
+ *
  * For class, it encloses its fields, constructors, methods and sub-types.
- * 
+ *
  * For package, it encloses its classes.
- * 
+ *
  * @author Dean Xu (XDean@github.com)
  */
 @Meta
@@ -60,8 +60,13 @@ public @interface CheckEnclose {
 
   /**
    * Type of the check
-   * 
+   *
    * @see Type
    */
   Type type() default Type.ALL;
+
+  /**
+   * Custom error message for this check
+   */
+  String message() default "";
 }

@@ -11,7 +11,7 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 
 /**
  * Check the target method correct defined.
- * 
+ *
  * @author Dean Xu (XDean@github.com)
  */
 @Meta
@@ -40,4 +40,9 @@ public @interface CheckConstructor {
    * n<sup>th</sup> parameter.
    */
   CheckParam[] args() default {};
+
+  /**
+   * Custom error message for this check
+   */
+  String message() default "";
 }

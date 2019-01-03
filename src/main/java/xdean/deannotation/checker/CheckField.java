@@ -11,7 +11,7 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 
 /**
  * Check the target field correct defined.
- * 
+ *
  * @author Dean Xu (XDean@github.com)
  */
 @Meta
@@ -38,4 +38,9 @@ public @interface CheckField {
    * Check the field's type.
    */
   CheckType type() default @CheckType;
+
+  /**
+   * Custom error message for this check
+   */
+  String message() default "";
 }

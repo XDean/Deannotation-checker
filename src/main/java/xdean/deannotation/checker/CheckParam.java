@@ -11,7 +11,7 @@ import xdean.annotation.processor.toolkit.annotation.Meta;
 
 /**
  * Check the target parameter correct defined.
- * 
+ *
  * @author Dean Xu (XDean@github.com)
  */
 @Meta
@@ -33,4 +33,9 @@ public @interface CheckParam {
    * Check the parameter's annotation.
    */
   CheckAnnotation annotation() default @CheckAnnotation;
+
+  /**
+   * Custom error message for this check
+   */
+  String message() default "";
 }
