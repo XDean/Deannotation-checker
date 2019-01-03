@@ -28,10 +28,10 @@ public class AnnotationChecker extends Checker<CheckAnnotation> {
     Builder builder = CheckResult.Builder.create(element);
     ElementUtil.getAnnotationClassArray(elements, ca, CheckAnnotation::require)
         .forEach(m -> builder.addIf(!ElementUtil.getAnnotationMirror(element, m).isPresent(),
-            getMessage(mid, "Annotation required: " + m, ca.message())));
+            getMessage(mid, "Annotation required: " + m)));
     ElementUtil.getAnnotationClassArray(elements, ca, CheckAnnotation::forbid)
         .forEach(m -> builder.addIf(ElementUtil.getAnnotationMirror(element, m).isPresent(),
-            getMessage(mid, "Annotation forbidden: " + m, ca.message())));
-    return builder.build();
+            getMessage(mid, "Annotation forbidden: " + m)));
+    return builder.build(ca.message());
   }
 }

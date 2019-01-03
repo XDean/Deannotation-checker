@@ -124,7 +124,7 @@ public class EncloseChecker extends Checker<CheckEnclose> {
       return CheckResult.Builder.create(element)
           .add((allMatch ? "Must have all the enclosed element:" : "Must have one of the enclosed element:") + "\n"
               + elementStrings.stream().map(s -> "\t" + s).collect(Collectors.joining("\n")))
-          .build();
+          .build(ce.message());
     }
   }
 

@@ -38,7 +38,7 @@ public class ClassChecker extends Checker<CheckClass> {
         .add(annotationChecker.check(env, cc.annotation(), mid, element))
         .add(modifierChecker.check(env, cc.modifier(), mid, element))
         .add(typeChecker.check(env, cc.type(), mid, element))
-        .build();
+        .build(cc.message());
   }
 
   @Override

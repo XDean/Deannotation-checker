@@ -60,7 +60,7 @@ public class MethodChecker extends Checker<CheckMethod> {
       VariableElement param = parameters.get(i);
       builder.add(paramChecker.check(env, res, mid, param));
     }
-    return builder.build();
+    return builder.build(cm.message());
   }
 
   @Override

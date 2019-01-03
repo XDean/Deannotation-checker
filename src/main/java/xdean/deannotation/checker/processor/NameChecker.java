@@ -31,7 +31,7 @@ public class NameChecker extends Checker<CheckName> {
     Builder builder = CheckResult.Builder.create(element);
     Pattern p = Pattern.compile(cn.value(), cn.ignoreCase() ? Pattern.CASE_INSENSITIVE : 0);
     builder.addIfNot(p.matcher(element.getSimpleName().toString()).matches(), "Element name must match regex: " + cn.value());
-    return builder.build();
+    return builder.build(cn.message());
   }
 
   @Override

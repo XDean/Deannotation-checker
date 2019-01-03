@@ -38,7 +38,7 @@ public class FieldChecker extends Checker<CheckField> {
         .add(annotationChecker.check(env, cf.annotation(), mid, element))
         .add(modifierChecker.check(env, cf.modifier(), mid, element))
         .add(typeChecker.check(env, cf.type(), mid, element))
-        .build();
+        .build(cf.message());
   }
 
   @Override

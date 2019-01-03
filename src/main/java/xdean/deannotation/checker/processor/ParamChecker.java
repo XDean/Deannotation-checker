@@ -36,7 +36,7 @@ public class ParamChecker extends Checker<CheckParam> {
         .add(nameChecker.check(env, cp.name(), mid, element))
         .add(annotationChecker.check(env, cp.annotation(), mid, element))
         .add(typeChecker.check(env, cp.type(), mid, element))
-        .build();
+        .build(cp.message());
   }
 
   @Override

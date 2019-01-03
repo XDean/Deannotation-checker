@@ -66,7 +66,7 @@ public class TypeChecker extends Checker<CheckType> {
 
   /**
    * Check the type on the element with given {@link CheckType}.
-   * 
+   *
    * @param ct the annotation
    * @param element the annotated element
    * @param typeToCheck the type to check
@@ -99,7 +99,7 @@ public class TypeChecker extends Checker<CheckType> {
     default:
       throw new IllegalStateException();
     }
-    return builder.build();
+    return builder.build(ct.message());
   }
 
   private List<TypeMirror> getBaseTypes(CheckType ct) {

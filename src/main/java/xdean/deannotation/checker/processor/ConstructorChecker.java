@@ -60,7 +60,7 @@ public class ConstructorChecker extends Checker<CheckConstructor> {
       VariableElement param = parameters.get(i);
       builder.add(paramChecker.check(env, res, mid, param));
     }
-    return builder.build();
+    return builder.build(cc.message());
   }
 
   @Override

@@ -60,7 +60,21 @@ public class CheckResult {
     }
 
     public CheckResult build() {
-      return new CheckResult(errors);
+      if (errors.isEmpty()) {
+        return EMPTY;
+      } else {
+        return new CheckResult(errors);
+      }
+    }
+
+    public CheckResult build(String customMessage) {
+      if (errors.isEmpty()) {
+        return EMPTY;
+      } else if (customMessage == null || customMessage.isEmpty()) {
+        return new CheckResult(errors);
+      } else {
+        return new CheckResult(Collections.singletonMap(root, Collections.singletonList(customMessage)));
+      }
     }
   }
 }

@@ -33,6 +33,6 @@ public class ModifierChecker extends Checker<CheckModifier> {
         .forEach(m -> builder.addIf(!modifiers.contains(m), "Modifier required: " + m));
     Arrays.stream(cm.forbid())
         .forEach(m -> builder.addIf(modifiers.contains(m), "Modifier forbidden: " + m));
-    return builder.build();
+    return builder.build(cm.message());
   }
 }
